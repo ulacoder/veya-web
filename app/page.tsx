@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { Eye, Wifi, Camera, Activity, CheckCircle2, AlertCircle, Clock, Sparkles } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Eye, Wifi, Camera, Activity, CheckCircle2, AlertCircle, Clock, Sparkles, Zap, Moon, Sun, Globe } from 'lucide-react'
 
 type Screen = 'home' | 'connect' | 'scan' | 'analysis'
+type Theme = 'dark' | 'light'
+type Language = 'ru' | 'en'
 
 type ScanResult = {
   diagnosis: string
@@ -13,12 +15,137 @@ type ScanResult = {
   details: string
 }
 
+const translations = {
+  ru: {
+    hero: {
+      title: 'Veya',
+      subtitle: 'ИИ для анализа здоровья глаз',
+    },
+    features: {
+      speed: '2 секунды',
+      speedDesc: 'Мгновенный результат с точностью 85%+',
+      anywhere: 'Везде',
+      anywhereDesc: 'Проверка в любом месте и в любое время',
+      recommendations: 'Рекомендации',
+      recommendationsDesc: 'Персональные советы на основе анализа',
+    },
+    buttons: {
+      connect: 'Подключить устройство',
+      demo: 'Посмотреть демо',
+      back: '← Назад',
+      disconnect: '← Отключиться',
+      startScan: 'Начать сканирование',
+      scanning: 'Сканирование...',
+      newScan: 'Новое сканирование',
+      home: 'На главную',
+      connectBtn: 'Подключить',
+    },
+    guide: {
+      title: 'Как это работает',
+      step1: 'Включите Veya Glasses',
+      step2: 'Подключитесь к устройству',
+      step3: 'Проведите сканирование',
+      step4: 'Получите результат',
+    },
+    connect: {
+      title: 'Подключение',
+      subtitle: 'Введите IP-адрес вашего устройства',
+      label: 'IP-адрес Raspberry Pi',
+      hint: 'IP-адрес отображается на дисплее очков',
+    },
+    scan: {
+      connected: 'Устройство подключено',
+      title: 'Готово к сканированию',
+      subtitle: 'Расположите камеру на уровне глаза и нажмите кнопку',
+    },
+    analysis: {
+      title: 'Результат анализа',
+      subtitle: 'Анализ выполнен искусственным интеллектом',
+      accuracy: 'Точность',
+      details: 'Детали анализа',
+      recommendations: 'Рекомендации',
+      today: 'Сегодня',
+    },
+    diagnoses: {
+      healthy: 'Здоровый глаз',
+      cataract: 'Катаракта',
+      conjunctivitis: 'Конъюнктивит',
+      pterygium: 'Птеригиум',
+    },
+  },
+  en: {
+    hero: {
+      title: 'Veya',
+      subtitle: 'AI for eye health analysis',
+    },
+    features: {
+      speed: '2 seconds',
+      speedDesc: 'Instant result with 85%+ accuracy',
+      anywhere: 'Anywhere',
+      anywhereDesc: 'Check anytime, anywhere',
+      recommendations: 'Recommendations',
+      recommendationsDesc: 'Personalized advice based on analysis',
+    },
+    buttons: {
+      connect: 'Connect Device',
+      demo: 'View Demo',
+      back: '← Back',
+      disconnect: '← Disconnect',
+      startScan: 'Start Scanning',
+      scanning: 'Scanning...',
+      newScan: 'New Scan',
+      home: 'Home',
+      connectBtn: 'Connect',
+    },
+    guide: {
+      title: 'How it works',
+      step1: 'Turn on Veya Glasses',
+      step2: 'Connect to device',
+      step3: 'Perform scanning',
+      step4: 'Get results',
+    },
+    connect: {
+      title: 'Connection',
+      subtitle: 'Enter your device IP address',
+      label: 'Raspberry Pi IP Address',
+      hint: 'IP address is displayed on glasses screen',
+    },
+    scan: {
+      connected: 'Device connected',
+      title: 'Ready to scan',
+      subtitle: 'Position camera at eye level and press button',
+    },
+    analysis: {
+      title: 'Analysis Result',
+      subtitle: 'Analysis performed by artificial intelligence',
+      accuracy: 'Accuracy',
+      details: 'Analysis Details',
+      recommendations: 'Recommendations',
+      today: 'Today',
+    },
+    diagnoses: {
+      healthy: 'Healthy Eye',
+      cataract: 'Cataract',
+      conjunctivitis: 'Conjunctivitis',
+      pterygium: 'Pterygium',
+    },
+  },
+}
+
 export default function Home() {
   const [screen, setScreen] = useState<Screen>('home')
+  const [theme, setTheme] = useState<Theme>('dark')
+  const [lang, setLang] = useState<Language>('en')
   const [piAddress, setPiAddress] = useState('')
   const [connected, setConnected] = useState(false)
   const [scanning, setScanning] = useState(false)
   const [result, setResult] = useState<ScanResult | null>(null)
+
+  const t = translations[lang]
+
+  useEffect(() => {
+    document.body.className = theme
+  }, [theme])
 
   const handleConnect = () => {
     if (!piAddress) return
@@ -32,10 +159,10 @@ export default function Home() {
     setScanning(true)
     setTimeout(() => {
       const diagnoses = [
-        { name: 'Здоровый глаз', rec: 'Профилактические осмотры раз в год', details: 'Признаков заболеваний не обнаружено. Продолжайте поддерживать гигиену глаз.' },
-        { name: 'Катаракта', rec: 'Рекомендуется консультация офтальмолога', details: 'Обнаружено помутнение хрусталика. Необходима консультация специалиста для определения стадии.' },
-        { name: 'Конъюнктивит', rec: 'Обратитесь к врачу для назначения лечения', details: 'Выявлены признаки воспаления конъюнктивы. Требуется медикаментозное лечение.' },
-        { name: 'Птеригиум', rec: 'Консультация офтальмолога в ближайшее время', details: 'Обнаружен нарост на конъюнктиве. Наблюдение или хирургическое вмешательство по показаниям.' },
+        { name: t.diagnoses.healthy, rec: lang === 'ru' ? 'Профилактические осмотры раз в год' : 'Preventive check-ups once a year', details: lang === 'ru' ? 'Признаков заболеваний не обнаружено. Продолжайте поддерживать гигиену глаз.' : 'No signs of disease detected. Continue to maintain eye hygiene.' },
+        { name: t.diagnoses.cataract, rec: lang === 'ru' ? 'Рекомендуется консультация офтальмолога' : 'Ophthalmologist consultation recommended', details: lang === 'ru' ? 'Обнаружено помутнение хрусталика. Необходима консультация специалиста для определения стадии.' : 'Lens clouding detected. Specialist consultation needed to determine stage.' },
+        { name: t.diagnoses.conjunctivitis, rec: lang === 'ru' ? 'Обратитесь к врачу для назначения лечения' : 'See a doctor for treatment', details: lang === 'ru' ? 'Выявлены признаки воспаления конъюнктивы. Требуется медикаментозное лечение.' : 'Signs of conjunctival inflammation detected. Medical treatment required.' },
+        { name: t.diagnoses.pterygium, rec: lang === 'ru' ? 'Консультация офтальмолога в ближайшее время' : 'Ophthalmologist consultation soon', details: lang === 'ru' ? 'Обнаружен нарост на конъюнктиве. Наблюдение или хирургическое вмешательство по показаниям.' : 'Growth on conjunctiva detected. Observation or surgery as indicated.' },
       ]
       const selected = diagnoses[Math.floor(Math.random() * diagnoses.length)]
       setResult({
@@ -52,117 +179,140 @@ export default function Home() {
 
   const handleDemo = () => {
     setResult({
-      diagnosis: 'Здоровый глаз',
+      diagnosis: t.diagnoses.healthy,
       confidence: 94,
       timestamp: new Date(),
-      recommendation: 'Профилактические осмотры раз в год',
-      details: 'Признаков заболеваний не обнаружено. Продолжайте поддерживать гигиену глаз и носите солнцезащитные очки в яркую погоду.',
+      recommendation: lang === 'ru' ? 'Профилактические осмотры раз в год' : 'Preventive check-ups once a year',
+      details: lang === 'ru' ? 'Признаков заболеваний не обнаружено. Продолжайте поддерживать гигиену глаз и носите солнцезащитные очки в яркую погоду.' : 'No signs of disease detected. Continue to maintain eye hygiene and wear sunglasses in bright weather.',
     })
     setScreen('analysis')
   }
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen gradient-bg">
+      {/* Theme & Language Toggles */}
+      <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
+        <button
+          onClick={() => setLang(lang === 'ru' ? 'en' : 'ru')}
+          className={`p-3 rounded-xl backdrop-blur-xl border transition ${
+            theme === 'dark'
+              ? 'bg-white/5 border-white/10 hover:bg-white/10'
+              : 'bg-black/5 border-black/10 hover:bg-black/10'
+          }`}
+        >
+          <Globe className={`w-5 h-5 ${theme === 'dark' ? 'text-white' : 'text-black'}`} />
+        </button>
+        <button
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          className={`p-3 rounded-xl backdrop-blur-xl border transition ${
+            theme === 'dark'
+              ? 'bg-white/5 border-white/10 hover:bg-white/10'
+              : 'bg-black/5 border-black/10 hover:bg-black/10'
+          }`}
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-5 h-5 text-white" />
+          ) : (
+            <Moon className="w-5 h-5 text-black" />
+          )}
+        </button>
+      </div>
+
       {/* Home Screen */}
       {screen === 'home' && (
-        <div className="min-h-screen flex items-center justify-center px-6 py-12">
-          <div className="max-w-4xl w-full">
+        <div className="min-h-screen flex items-center justify-center px-6 py-20 relative z-10">
+          <div className="max-w-6xl w-full">
             {/* Hero */}
-            <div className="text-center mb-12 fade-in">
-              <div className="inline-flex items-center justify-center w-24 h-24 mb-8 rounded-3xl bg-white/20 backdrop-blur-xl border border-white/30">
-                <Eye className="w-12 h-12 text-white" />
+            <div className="text-center mb-16 fade-in">
+              <div className="inline-flex items-center justify-center w-28 h-28 mb-8 rounded-3xl bg-blue-600 glow-blue">
+                <Eye className="w-14 h-14 text-white" />
               </div>
-              <h1 className="text-6xl font-bold text-white mb-4">Veya</h1>
-              <p className="text-xl text-white/90 leading-relaxed max-w-2xl mx-auto">
-                Искусственный интеллект для анализа состояния глаз
+              <h1 className={`text-7xl md:text-8xl font-bold mb-6 tracking-tight ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                {t.hero.title}
+              </h1>
+              <p className={`text-2xl md:text-3xl leading-relaxed max-w-3xl mx-auto font-light ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                {t.hero.subtitle}
               </p>
             </div>
 
             {/* Features Grid */}
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
-              <div className="card p-6 fade-in" style={{ animationDelay: '0.1s' }}>
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-4">
-                  <Activity className="w-7 h-7 text-white" />
+            <div className="grid md:grid-cols-3 gap-6 mb-16">
+              <div className="card p-8 fade-in" style={{ animationDelay: '0.1s' }}>
+                <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center mb-6 glow-blue">
+                  <Zap className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Мгновенный анализ
+                <h3 className={`text-xl font-semibold mb-3 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                  {t.features.speed}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Результат за 2-3 секунды с точностью более 85%
+                <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
+                  {t.features.speedDesc}
                 </p>
               </div>
 
-              <div className="card p-6 fade-in" style={{ animationDelay: '0.2s' }}>
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-4">
-                  <CheckCircle2 className="w-7 h-7 text-white" />
+              <div className="card p-8 fade-in" style={{ animationDelay: '0.2s' }}>
+                <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center mb-6 glow-blue">
+                  <CheckCircle2 className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  В любом месте
+                <h3 className={`text-xl font-semibold mb-3 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                  {t.features.anywhere}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Следите за здоровьем глаз в удобное время
+                <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
+                  {t.features.anywhereDesc}
                 </p>
               </div>
 
-              <div className="card p-6 fade-in" style={{ animationDelay: '0.3s' }}>
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center mb-4">
-                  <Sparkles className="w-7 h-7 text-white" />
+              <div className="card p-8 fade-in" style={{ animationDelay: '0.3s' }}>
+                <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center mb-6 glow-blue">
+                  <Sparkles className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Рекомендации ИИ
+                <h3 className={`text-xl font-semibold mb-3 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                  {t.features.recommendations}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Персональные советы на основе анализа
+                <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
+                  {t.features.recommendationsDesc}
                 </p>
               </div>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 fade-in" style={{ animationDelay: '0.4s' }}>
+            <div className="flex flex-col sm:flex-row gap-6 mb-16 fade-in" style={{ animationDelay: '0.4s' }}>
               <button
                 onClick={() => setScreen('connect')}
-                className="flex-1 bg-white text-gray-900 py-4 px-8 rounded-2xl font-semibold hover:scale-105 transition-transform shadow-lg"
+                className={`flex-1 py-5 px-10 rounded-2xl font-semibold text-lg hover:scale-105 transition-transform shadow-2xl ${
+                  theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'
+                }`}
               >
-                Подключить устройство
+                {t.buttons.connect}
               </button>
               <button
                 onClick={handleDemo}
-                className="flex-1 bg-white/20 backdrop-blur-xl border border-white/30 text-white py-4 px-8 rounded-2xl font-semibold hover:bg-white/30 transition"
+                className="flex-1 bg-blue-600 text-white py-5 px-10 rounded-2xl font-semibold text-lg hover:scale-105 transition-transform glow-blue"
               >
-                Посмотреть демо
+                {t.buttons.demo}
               </button>
             </div>
 
             {/* Quick Guide */}
-            <div className="card p-8 mt-8 fade-in" style={{ animationDelay: '0.5s' }}>
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                Как это работает
+            <div className="card-solid p-10 fade-in" style={{ animationDelay: '0.5s' }}>
+              <h3 className={`text-2xl font-semibold mb-8 text-center ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                {t.guide.title}
               </h3>
-              <div className="grid sm:grid-cols-4 gap-6">
-                <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg mx-auto mb-3">
-                    1
+              <div className="grid sm:grid-cols-4 gap-8">
+                {[
+                  { num: '1', text: t.guide.step1 },
+                  { num: '2', text: t.guide.step2 },
+                  { num: '3', text: t.guide.step3 },
+                  { num: '4', text: t.guide.step4 },
+                ].map((step, i) => (
+                  <div key={i} className="text-center">
+                    <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold text-2xl mx-auto mb-4 glow-blue">
+                      {step.num}
+                    </div>
+                    <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
+                      {step.text}
+                    </p>
                   </div>
-                  <p className="text-sm text-gray-600">Включите Veya Glasses</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-lg mx-auto mb-3">
-                    2
-                  </div>
-                  <p className="text-sm text-gray-600">Подключитесь к устройству</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold text-lg mx-auto mb-3">
-                    3
-                  </div>
-                  <p className="text-sm text-gray-600">Проведите сканирование</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-lg mx-auto mb-3">
-                    4
-                  </div>
-                  <p className="text-sm text-gray-600">Получите результат</p>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -171,50 +321,54 @@ export default function Home() {
 
       {/* Connect Screen */}
       {screen === 'connect' && (
-        <div className="min-h-screen flex items-center justify-center px-6 py-12">
-          <div className="max-w-md w-full fade-in">
+        <div className="min-h-screen flex items-center justify-center px-6 py-12 relative z-10">
+          <div className="max-w-lg w-full fade-in">
             <button
               onClick={() => setScreen('home')}
-              className="text-white/80 hover:text-white mb-8 transition"
+              className={`mb-10 transition text-lg ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
             >
-              ← Назад
+              {t.buttons.back}
             </button>
 
-            <div className="card p-8">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-3xl bg-gradient-to-br from-blue-500 to-purple-600">
-                  <Wifi className="w-10 h-10 text-white" />
+            <div className="card-solid p-10">
+              <div className="text-center mb-10">
+                <div className="inline-flex items-center justify-center w-24 h-24 mb-8 rounded-3xl bg-blue-600 glow-blue">
+                  <Wifi className="w-12 h-12 text-white" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                  Подключение
+                <h2 className={`text-4xl font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                  {t.connect.title}
                 </h2>
-                <p className="text-gray-600">
-                  Введите IP-адрес вашего устройства
+                <p className={`text-lg ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                  {t.connect.subtitle}
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    IP-адрес Raspberry Pi
+                  <label className={`block text-sm font-medium mb-3 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {t.connect.label}
                   </label>
                   <input
                     type="text"
                     value={piAddress}
                     onChange={(e) => setPiAddress(e.target.value)}
                     placeholder="192.168.x.x"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition text-gray-900 bg-white"
+                    className={`w-full px-6 py-4 border rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition text-lg ${
+                      theme === 'dark'
+                        ? 'bg-black border-white/10 text-white placeholder-gray-600'
+                        : 'bg-white border-black/10 text-black placeholder-gray-400'
+                    }`}
                   />
                 </div>
                 <button
                   onClick={handleConnect}
                   disabled={!piAddress}
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-blue-600 text-white py-5 rounded-xl font-semibold text-lg hover:shadow-2xl transition disabled:opacity-50 disabled:cursor-not-allowed glow-blue"
                 >
-                  Подключить
+                  {t.buttons.connectBtn}
                 </button>
-                <p className="text-sm text-gray-500 text-center">
-                  IP-адрес отображается на дисплее очков
+                <p className={`text-sm text-center ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
+                  {t.connect.hint}
                 </p>
               </div>
             </div>
@@ -224,44 +378,44 @@ export default function Home() {
 
       {/* Scan Screen */}
       {screen === 'scan' && (
-        <div className="min-h-screen flex items-center justify-center px-6 py-12">
-          <div className="max-w-md w-full fade-in">
+        <div className="min-h-screen flex items-center justify-center px-6 py-12 relative z-10">
+          <div className="max-w-lg w-full fade-in">
             <button
               onClick={() => {
                 setConnected(false)
                 setScreen('home')
               }}
-              className="text-white/80 hover:text-white mb-8 transition"
+              className={`mb-10 transition text-lg ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
             >
-              ← Отключиться
+              {t.buttons.disconnect}
             </button>
 
-            <div className="card p-8 text-center">
-              <div className="inline-flex items-center justify-center w-32 h-32 mb-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600">
-                <Camera className="w-16 h-16 text-white" />
+            <div className="card-solid p-10 text-center">
+              <div className="inline-flex items-center justify-center w-40 h-40 mb-10 rounded-full bg-blue-600 glow-blue">
+                <Camera className="w-20 h-20 text-white" />
               </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 rounded-full mb-6">
-                <div className="w-2 h-2 rounded-full bg-green-500 pulse" />
-                <span className="text-sm font-medium text-green-700">Устройство подключено</span>
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-green-500/20 backdrop-blur-xl border border-green-500/30 rounded-full mb-8">
+                <div className="w-3 h-3 rounded-full bg-green-400 pulse" />
+                <span className="text-sm font-medium text-green-300">{t.scan.connected}</span>
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Готово к сканированию
+              <h2 className={`text-4xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                {t.scan.title}
               </h2>
-              <p className="text-gray-600 mb-8">
-                Расположите камеру на уровне глаза и нажмите кнопку
+              <p className={`mb-10 text-lg leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                {t.scan.subtitle}
               </p>
               <button
                 onClick={handleScan}
                 disabled={scanning}
-                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full bg-blue-600 text-white py-5 rounded-xl font-semibold text-lg hover:shadow-2xl transition disabled:opacity-50 flex items-center justify-center gap-3 glow-blue"
               >
                 {scanning ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Сканирование...
+                    <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin" />
+                    {t.buttons.scanning}
                   </>
                 ) : (
-                  'Начать сканирование'
+                  t.buttons.startScan
                 )}
               </button>
             </div>
@@ -271,91 +425,87 @@ export default function Home() {
 
       {/* Analysis Screen */}
       {screen === 'analysis' && result && (
-        <div className="min-h-screen px-6 py-12">
-          <div className="max-w-3xl mx-auto fade-in">
+        <div className="min-h-screen px-6 py-16 relative z-10">
+          <div className="max-w-4xl mx-auto fade-in">
             <button
               onClick={() => setScreen('home')}
-              className="text-white/80 hover:text-white mb-8 transition"
+              className={`mb-10 transition text-lg ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
             >
-              ← На главную
+              {t.buttons.back}
             </button>
 
-            <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold text-white mb-2">
-                Результат анализа
+            <div className="text-center mb-12">
+              <h2 className={`text-5xl font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                {t.analysis.title}
               </h2>
-              <p className="text-white/80">
-                Анализ выполнен искусственным интеллектом
+              <p className={`text-lg ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                {t.analysis.subtitle}
               </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Main Result Card */}
-              <div className="card p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-4">
-                    {result.diagnosis === 'Здоровый глаз' ? (
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center">
-                        <CheckCircle2 className="w-9 h-9 text-white" />
+              <div className="card-solid p-10">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+                  <div className="flex items-center gap-6">
+                    {result.diagnosis === t.diagnoses.healthy ? (
+                      <div className="w-20 h-20 rounded-3xl bg-green-600 flex items-center justify-center flex-shrink-0">
+                        <CheckCircle2 className="w-11 h-11 text-white" />
                       </div>
                     ) : (
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-red-600 flex items-center justify-center">
-                        <AlertCircle className="w-9 h-9 text-white" />
+                      <div className="w-20 h-20 rounded-3xl bg-orange-600 flex items-center justify-center flex-shrink-0">
+                        <AlertCircle className="w-11 h-11 text-white" />
                       </div>
                     )}
                     <div>
-                      <h3 className="text-3xl font-bold text-gray-900 mb-1">
+                      <h3 className={`text-4xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
                         {result.diagnosis}
                       </h3>
-                      <p className="text-sm text-gray-500 flex items-center gap-1.5">
+                      <p className={`flex items-center gap-2 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
                         <Clock className="w-4 h-4" />
-                        {result.timestamp.toLocaleTimeString('ru-RU')} • Сегодня
+                        {result.timestamp.toLocaleTimeString(lang === 'ru' ? 'ru-RU' : 'en-US')} • {t.analysis.today}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  <div className="text-center md:text-right">
+                    <div className="text-6xl font-bold text-gradient mb-1">
                       {result.confidence}%
                     </div>
-                    <div className="text-xs text-gray-500 font-medium">ТОЧНОСТЬ</div>
+                    <div className={`text-xs font-semibold tracking-wider uppercase ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
+                      {t.analysis.accuracy}
+                    </div>
                   </div>
                 </div>
 
-                <div className="relative w-full h-3 bg-gray-200 rounded-full mb-6 overflow-hidden">
+                <div className={`relative w-full h-4 rounded-full mb-8 overflow-hidden ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}>
                   <div
-                    className={`absolute top-0 left-0 h-full rounded-full ${
-                      result.confidence >= 90
-                        ? 'bg-gradient-to-r from-green-400 to-emerald-600'
-                        : result.confidence >= 75
-                        ? 'bg-gradient-to-r from-blue-400 to-blue-600'
-                        : 'bg-gradient-to-r from-orange-400 to-red-600'
-                    }`}
+                    className="absolute top-0 left-0 h-full rounded-full bg-blue-600"
                     style={{ width: `${result.confidence}%` }}
                   />
                 </div>
 
-                <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-6">
-                  <p className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-blue-600" />
-                    Детали анализа
+                <div className={`backdrop-blur-xl rounded-2xl p-8 border ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}`}>
+                  <p className={`text-sm font-semibold mb-4 flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                    <Sparkles className="w-5 h-5 text-blue-400" />
+                    {t.analysis.details}
                   </p>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className={`leading-relaxed text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
                     {result.details}
                   </p>
                 </div>
               </div>
 
               {/* Recommendation Card */}
-              <div className="card p-8">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
-                    <Activity className="w-6 h-6 text-white" />
+              <div className="card-solid p-10">
+                <div className="flex items-start gap-6">
+                  <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center flex-shrink-0 glow-blue">
+                    <Activity className="w-8 h-8 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">
-                      Рекомендации
+                    <h3 className={`text-2xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                      {t.analysis.recommendations}
                     </h3>
-                    <p className="text-gray-700 leading-relaxed text-lg">
+                    <p className={`leading-relaxed text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
                       {result.recommendation}
                     </p>
                   </div>
@@ -363,24 +513,26 @@ export default function Home() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-6">
                 <button
                   onClick={() => {
                     setResult(null)
                     setScreen('scan')
                   }}
-                  className="flex-1 card py-4 text-center font-semibold text-gray-900 hover:shadow-lg transition"
+                  className={`flex-1 py-5 text-center font-semibold text-lg rounded-2xl hover:scale-105 transition-transform shadow-2xl ${
+                    theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'
+                  }`}
                 >
-                  Новое сканирование
+                  {t.buttons.newScan}
                 </button>
                 <button
                   onClick={() => {
                     setResult(null)
                     setScreen('home')
                   }}
-                  className="flex-1 bg-white/20 backdrop-blur-xl border border-white/30 text-white py-4 rounded-2xl font-semibold hover:bg-white/30 transition"
+                  className="flex-1 bg-blue-600 text-white py-5 text-center font-semibold text-lg rounded-2xl hover:scale-105 transition-transform glow-blue"
                 >
-                  На главную
+                  {t.buttons.home}
                 </button>
               </div>
             </div>
