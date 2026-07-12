@@ -90,6 +90,7 @@ MIT License - feel free to use for your projects
 
 **Ulagat**
 - GitHub: [@ulacoder](https://github.com/ulacoder)
+- Mail: nurtasulagat@gmail.com
 
 ## 🤝 Contributing
 
