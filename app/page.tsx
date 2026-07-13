@@ -140,6 +140,8 @@ export default function Home() {
   const [connected, setConnected] = useState(false)
   const [scanning, setScanning] = useState(false)
   const [result, setResult] = useState<ScanResult | null>(null)
+  const [scanHistory, setScanHistory] = useState<ScanResult[]>([])
+  const [connectionError, setConnectionError] = useState(false)
 
   const t = translations[lang]
 
@@ -149,9 +151,16 @@ export default function Home() {
 
   const handleConnect = () => {
     if (!piAddress) return
+    setConnectionError(false)
     setTimeout(() => {
-      setConnected(true)
-      setScreen('scan')
+      // Simulate connection validation
+      const isValidIP = /^(\d{1,3}\.){3}\d{1,3}$/.test(piAddress)
+      if (isValidIP) {
+        setConnected(true)
+        setScreen('scan')
+      } else {
+        setConnectionError(true)
+      }
     }, 1500)
   }
 
@@ -165,13 +174,15 @@ export default function Home() {
         { name: t.diagnoses.pterygium, rec: lang === 'ru' ? 'Консультация офтальмолога в ближайшее время' : 'Ophthalmologist consultation soon', details: lang === 'ru' ? 'Обнаружен нарост на конъюнктиве. Наблюдение или хирургическое вмешательство по показаниям.' : 'Growth on conjunctiva detected. Observation or surgery as indicated.' },
       ]
       const selected = diagnoses[Math.floor(Math.random() * diagnoses.length)]
-      setResult({
+      const newResult = {
         diagnosis: selected.name,
         confidence: Math.floor(Math.random() * 15) + 85,
         timestamp: new Date(),
         recommendation: selected.rec,
         details: selected.details,
-      })
+      }
+      setResult(newResult)
+      setScanHistory(prev => [newResult, ...prev].slice(0, 10)) // Keep last 10 scans
       setScanning(false)
       setScreen('analysis')
     }, 3000)
@@ -224,7 +235,7 @@ export default function Home() {
           <div className="max-w-6xl w-full">
             {/* Hero */}
             <div className="text-center mb-16 fade-in">
-              <div className="inline-flex items-center justify-center w-28 h-28 mb-8 rounded-3xl bg-blue-600 glow-blue">
+              <div className="inline-flex items-center justify-center w-28 h-28 mb-8 rounded-3xl bg-blue-600 glow-blue" role="img" aria-label="Veya eye health icon">
                 <Eye className="w-14 h-14 text-white" />
               </div>
               <h1 className={`text-7xl md:text-8xl font-bold mb-6 tracking-tight ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
@@ -367,6 +378,11 @@ export default function Home() {
                 >
                   {t.buttons.connectBtn}
                 </button>
+                {connectionError && (
+                  <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 text-red-300 text-sm">
+                    {lang === 'ru' ? 'Ошибка подключения. Проверьте IP-адрес.' : 'Connection error. Check IP address.'}
+                  </div>
+                )}
                 <p className={`text-sm text-center ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
                   {t.connect.hint}
                 </p>

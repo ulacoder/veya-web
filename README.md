@@ -8,10 +8,13 @@ AI-powered web application for eye disease detection using smart glasses and Ras
 
 - **Real-time Analysis** - Get results in 2-3 seconds with 85%+ accuracy
 - **Disease Detection** - Identifies cataracts, conjunctivitis, and pterygium
+- **Scan History** - Track up to 10 recent scans automatically
+- **Error Handling** - Validates IP addresses and connection status
 - **Dark/Light Theme** - Toggle between dark and light modes
 - **Bilingual** - Full support for English and Russian
 - **Raspberry Pi Integration** - Connect to Veya Glasses via WiFi
 - **Privacy First** - All processing happens locally on device
+- **Accessibility** - ARIA labels and semantic HTML for screen readers
 
 ## 🚀 Live Demo
 
