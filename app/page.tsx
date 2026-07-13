@@ -15,6 +15,14 @@ type ScanResult = {
   details: string
 }
 
+// Helper function to format timestamp
+const formatTimestamp = (date: Date, lang: Language): string => {
+  return date.toLocaleTimeString(lang === 'ru' ? 'ru-RU' : 'en-US', {
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
 const translations = {
   ru: {
     hero: {
@@ -189,13 +197,15 @@ export default function Home() {
   }
 
   const handleDemo = () => {
-    setResult({
+    const demoResult = {
       diagnosis: t.diagnoses.healthy,
       confidence: 94,
       timestamp: new Date(),
       recommendation: lang === 'ru' ? 'Профилактические осмотры раз в год' : 'Preventive check-ups once a year',
       details: lang === 'ru' ? 'Признаков заболеваний не обнаружено. Продолжайте поддерживать гигиену глаз и носите солнцезащитные очки в яркую погоду.' : 'No signs of disease detected. Continue to maintain eye hygiene and wear sunglasses in bright weather.',
-    })
+    }
+    setResult(demoResult)
+    setScanHistory(prev => [demoResult, ...prev].slice(0, 10))
     setScreen('analysis')
   }
 
