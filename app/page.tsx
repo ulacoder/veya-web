@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Eye, Wifi, Camera, Activity, CheckCircle2, AlertCircle, Clock, Sparkles, Zap, Moon, Sun, Globe } from 'lucide-react'
+import { Eye, Camera, Activity, CheckCircle2, AlertCircle, Clock, Sparkles, Zap, Moon, Sun, Globe } from 'lucide-react'
 
-type Screen = 'home' | 'connect' | 'scan' | 'analysis'
+type Screen = 'home' | 'scan' | 'analysis'
 type Theme = 'dark' | 'light'
 type Language = 'ru' | 'en'
 
@@ -38,33 +38,19 @@ const translations = {
       recommendationsDesc: 'Персональные советы на основе анализа',
     },
     buttons: {
-      connect: 'Подключить устройство',
-      demo: 'Посмотреть демо',
-      back: '← Назад',
-      disconnect: '← Отключиться',
-      startScan: 'Начать сканирование',
-      scanning: 'Сканирование...',
-      newScan: 'Новое сканирование',
-      home: 'На главную',
-      connectBtn: 'Подключить',
+      startScan: 'Start Scanning',
+      demo: 'View Demo',
+      back: '← Back',
+      scanning: 'Analyzing...',
+      newScan: 'New Scan',
+      home: 'Home',
     },
     guide: {
       title: 'Как это работает',
-      step1: 'Включите Veya Glasses',
-      step2: 'Подключитесь к устройству',
-      step3: 'Проведите сканирование',
-      step4: 'Получите результат',
-    },
-    connect: {
-      title: 'Подключение',
-      subtitle: 'Введите IP-адрес вашего устройства',
-      label: 'IP-адрес Raspberry Pi',
-      hint: 'IP-адрес отображается на дисплее очков',
-    },
-    scan: {
-      connected: 'Устройство подключено',
-      title: 'Готово к сканированию',
-      subtitle: 'Расположите камеру на уровне глаза и нажмите кнопку',
+      step1: 'Нажмите "Начать сканирование"',
+      step2: 'Разрешите доступ к камере',
+      step3: 'Сфотографируйте глаз',
+      step4: 'Получите AI анализ за 2 секунды',
     },
     analysis: {
       title: 'Результат анализа',
@@ -95,33 +81,19 @@ const translations = {
       recommendationsDesc: 'Personalized advice based on analysis',
     },
     buttons: {
-      connect: 'Connect Device',
-      demo: 'View Demo',
-      back: '← Back',
-      disconnect: '← Disconnect',
-      startScan: 'Start Scanning',
-      scanning: 'Scanning...',
-      newScan: 'New Scan',
-      home: 'Home',
-      connectBtn: 'Connect',
+      startScan: 'Начать сканирование',
+      demo: 'Посмотреть демо',
+      back: '← Назад',
+      scanning: 'Анализ...',
+      newScan: 'Новое сканирование',
+      home: 'На главную',
     },
     guide: {
       title: 'How it works',
-      step1: 'Turn on Veya Glasses',
-      step2: 'Connect to device',
-      step3: 'Perform scanning',
-      step4: 'Get results',
-    },
-    connect: {
-      title: 'Connection',
-      subtitle: 'Enter your device IP address',
-      label: 'Raspberry Pi IP Address',
-      hint: 'IP address is displayed on glasses screen',
-    },
-    scan: {
-      connected: 'Device connected',
-      title: 'Ready to scan',
-      subtitle: 'Position camera at eye level and press button',
+      step1: 'Click "Start Scanning"',
+      step2: 'Allow camera access',
+      step3: 'Take photo of your eye',
+      step4: 'Get AI analysis in 2 seconds',
     },
     analysis: {
       title: 'Analysis Result',
@@ -144,12 +116,10 @@ export default function Home() {
   const [screen, setScreen] = useState<Screen>('home')
   const [theme, setTheme] = useState<Theme>('dark')
   const [lang, setLang] = useState<Language>('en')
-  const [piAddress, setPiAddress] = useState('')
-  const [connected, setConnected] = useState(false)
   const [scanning, setScanning] = useState(false)
   const [result, setResult] = useState<ScanResult | null>(null)
   const [scanHistory, setScanHistory] = useState<ScanResult[]>([])
-  const [connectionError, setConnectionError] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const t = translations[lang]
 
@@ -157,19 +127,8 @@ export default function Home() {
     document.body.className = theme
   }, [theme])
 
-  const handleConnect = () => {
-    if (!piAddress) return
-    setConnectionError(false)
-    setTimeout(() => {
-      // Simulate connection validation
-      const isValidIP = /^(\d{1,3}\.){3}\d{1,3}$/.test(piAddress)
-      if (isValidIP) {
-        setConnected(true)
-        setScreen('scan')
-      } else {
-        setConnectionError(true)
-      }
-    }, 1500)
+  const handleStartScan = () => {
+    setScreen('scan')
   }
 
   const handleScan = async () => {
@@ -378,12 +337,12 @@ export default function Home() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 mb-16 fade-in" style={{ animationDelay: '0.4s' }}>
               <button
-                onClick={() => setScreen('connect')}
+                onClick={handleStartScan}
                 className={`flex-1 py-5 px-10 rounded-2xl font-semibold text-lg hover:scale-105 transition-transform shadow-2xl ${
                   theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'
                 }`}
               >
-                {t.buttons.connect}
+                {t.buttons.startScan}
               </button>
               <button
                 onClick={handleDemo}
@@ -420,8 +379,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* Connect Screen */}
-      {screen === 'connect' && (
+      {/* Scan Screen */}
+      {screen === 'scan' && (
         <div className="min-h-screen flex items-center justify-center px-6 py-12 relative z-10">
           <div className="max-w-lg w-full fade-in">
             <button
@@ -431,85 +390,26 @@ export default function Home() {
               {t.buttons.back}
             </button>
 
-            <div className="card-solid p-10">
-              <div className="text-center mb-10">
-                <div className="inline-flex items-center justify-center w-24 h-24 mb-8 rounded-3xl bg-blue-600 glow-blue">
-                  <Wifi className="w-12 h-12 text-white" />
-                </div>
-                <h2 className={`text-4xl font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                  {t.connect.title}
-                </h2>
-                <p className={`text-lg ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {t.connect.subtitle}
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <label className={`block text-sm font-medium mb-3 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {t.connect.label}
-                  </label>
-                  <input
-                    type="text"
-                    value={piAddress}
-                    onChange={(e) => setPiAddress(e.target.value)}
-                    placeholder="192.168.x.x"
-                    className={`w-full px-6 py-4 border rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition text-lg ${
-                      theme === 'dark'
-                        ? 'bg-black border-white/10 text-white placeholder-gray-600'
-                        : 'bg-white border-black/10 text-black placeholder-gray-400'
-                    }`}
-                  />
-                </div>
-                <button
-                  onClick={handleConnect}
-                  disabled={!piAddress}
-                  className="w-full bg-blue-600 text-white py-5 rounded-xl font-semibold text-lg hover:shadow-2xl transition disabled:opacity-50 disabled:cursor-not-allowed glow-blue"
-                >
-                  {t.buttons.connectBtn}
-                </button>
-                {connectionError && (
-                  <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 text-red-300 text-sm">
-                    {lang === 'ru' ? 'Ошибка подключения. Проверьте IP-адрес.' : 'Connection error. Check IP address.'}
-                  </div>
-                )}
-                <p className={`text-sm text-center ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
-                  {t.connect.hint}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Scan Screen */}
-      {screen === 'scan' && (
-        <div className="min-h-screen flex items-center justify-center px-6 py-12 relative z-10">
-          <div className="max-w-lg w-full fade-in">
-            <button
-              onClick={() => {
-                setConnected(false)
-                setScreen('home')
-              }}
-              className={`mb-10 transition text-lg ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
-            >
-              {t.buttons.disconnect}
-            </button>
-
             <div className="card-solid p-10 text-center">
               <div className="inline-flex items-center justify-center w-40 h-40 mb-10 rounded-full bg-blue-600 glow-blue">
                 <Camera className="w-20 h-20 text-white" />
               </div>
-              <div className="inline-flex items-center gap-3 px-6 py-3 bg-green-500/20 backdrop-blur-xl border border-green-500/30 rounded-full mb-8">
-                <div className="w-3 h-3 rounded-full bg-green-400 pulse" />
-                <span className="text-sm font-medium text-green-300">{t.scan.connected}</span>
-              </div>
+
               <h2 className={`text-4xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                {t.scan.title}
+                {lang === 'ru' ? 'Сканирование глаза' : 'Eye Scanning'}
               </h2>
               <p className={`mb-10 text-lg leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                {t.scan.subtitle}
+                {lang === 'ru'
+                  ? 'Мы запросим доступ к камере и сделаем снимок вашего глаза для AI анализа'
+                  : 'We will request camera access and capture your eye photo for AI analysis'}
               </p>
+
+              {error && (
+                <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 text-red-300 text-sm mb-6">
+                  {error}
+                </div>
+              )}
+
               <button
                 onClick={handleScan}
                 disabled={scanning}
@@ -524,6 +424,18 @@ export default function Home() {
                   t.buttons.startScan
                 )}
               </button>
+
+              <div className={`mt-8 p-6 rounded-xl ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}>
+                <h3 className={`text-sm font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                  {lang === 'ru' ? 'Советы для лучшего результата' : 'Tips for best results'}
+                </h3>
+                <ul className={`text-sm space-y-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <li>✓ {lang === 'ru' ? 'Используйте хорошее освещение' : 'Use good lighting'}</li>
+                  <li>✓ {lang === 'ru' ? 'Держите камеру стабильно' : 'Hold camera steady'}</li>
+                  <li>✓ {lang === 'ru' ? 'Смотрите прямо в камеру' : 'Look directly at camera'}</li>
+                  <li>✓ {lang === 'ru' ? 'Избегайте теней' : 'Avoid shadows'}</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
