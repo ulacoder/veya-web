@@ -123,8 +123,10 @@ export default function Home() {
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [stream, setStream] = useState<MediaStream | null>(null)
   const [capturedImage, setCapturedImage] = useState<string | null>(null)
+  const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment')
 
   const t = translations[lang]
 
@@ -148,7 +150,7 @@ export default function Home() {
     try {
       setError(null)
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user', width: 1280, height: 720 }
+        video: { facingMode: facingMode, width: 1280, height: 720 }
       })
       setStream(mediaStream)
       if (videoRef.current) {
@@ -160,6 +162,47 @@ export default function Home() {
         : 'Unable to access camera. Please check permissions.')
       console.error('Camera error:', err)
     }
+  }
+
+  const switchCamera = async () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop())
+    }
+    const newMode = facingMode === 'user' ? 'environment' : 'user'
+    setFacingMode(newMode)
+
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: newMode, width: 1280, height: 720 }
+      })
+      setStream(mediaStream)
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream
+      }
+    } catch (err) {
+      setError(lang === 'ru'
+        ? 'Не удалось переключить камеру'
+        : 'Failed to switch camera')
+      console.error('Camera switch error:', err)
+    }
+  }
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const imageUrl = e.target?.result as string
+      setCapturedImage(imageUrl)
+
+      // Stop camera if running
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop())
+        setStream(null)
+      }
+    }
+    reader.readAsDataURL(file)
   }
 
   const capturePhoto = () => {
@@ -467,6 +510,16 @@ export default function Home() {
                         {lang === 'ru' ? 'Расположите глаз в центре круга' : 'Position your eye in the center circle'}
                       </p>
                     </div>
+                    {/* Switch Camera Button */}
+                    <button
+                      onClick={switchCamera}
+                      className="absolute top-4 right-4 p-3 bg-black/50 backdrop-blur-sm rounded-full text-white hover:bg-black/70 transition"
+                      title={lang === 'ru' ? 'Переключить камеру' : 'Switch camera'}
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    </button>
                   </>
                 ) : (
                   <img src={capturedImage} alt="Captured" className="w-full h-full object-cover" />
@@ -474,6 +527,13 @@ export default function Home() {
               </div>
 
               <canvas ref={canvasRef} style={{ display: 'none' }} />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                style={{ display: 'none' }}
+              />
 
               {error && (
                 <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 text-red-300 text-sm mb-4">
@@ -483,14 +543,29 @@ export default function Home() {
 
               {/* Controls */}
               {!capturedImage ? (
-                <button
-                  onClick={capturePhoto}
-                  disabled={!stream}
-                  className="w-full bg-blue-600 text-white py-5 rounded-xl font-semibold text-lg hover:shadow-2xl transition disabled:opacity-50 flex items-center justify-center gap-3 glow-blue"
-                >
-                  <Camera className="w-6 h-6" />
-                  {lang === 'ru' ? 'Сделать снимок' : 'Capture Photo'}
-                </button>
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    onClick={capturePhoto}
+                    disabled={!stream}
+                    className="bg-blue-600 text-white py-5 rounded-xl font-semibold text-lg hover:shadow-2xl transition disabled:opacity-50 flex items-center justify-center gap-3 glow-blue"
+                  >
+                    <Camera className="w-6 h-6" />
+                    {lang === 'ru' ? 'Снимок' : 'Capture'}
+                  </button>
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`py-5 rounded-xl font-semibold text-lg transition ${
+                      theme === 'dark'
+                        ? 'bg-white/10 text-white hover:bg-white/20'
+                        : 'bg-black/10 text-black hover:bg-black/20'
+                    } flex items-center justify-center gap-3`}
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {lang === 'ru' ? 'Галерея' : 'Gallery'}
+                  </button>
+                </div>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
                   <button
@@ -501,7 +576,7 @@ export default function Home() {
                         : 'bg-black/10 text-black hover:bg-black/20'
                     }`}
                   >
-                    {lang === 'ru' ? 'Переснять' : 'Retake'}
+                    {lang === 'ru' ? 'Заново' : 'Retake'}
                   </button>
                   <button
                     onClick={handleScan}
@@ -516,7 +591,7 @@ export default function Home() {
                     ) : (
                       <>
                         <Sparkles className="w-5 h-5" />
-                        {lang === 'ru' ? 'Анализировать' : 'Analyze'}
+                        {lang === 'ru' ? 'Анализ' : 'Analyze'}
                       </>
                     )}
                   </button>
@@ -526,13 +601,13 @@ export default function Home() {
               {/* Tips */}
               <div className={`mt-6 p-6 rounded-xl ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}>
                 <h3 className={`text-sm font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                  {lang === 'ru' ? 'Советы для лучшего результата' : 'Tips for best results'}
+                  {lang === 'ru' ? 'Советы для точного анализа' : 'Tips for accurate analysis'}
                 </h3>
                 <ul className={`text-sm space-y-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                  <li>✓ {lang === 'ru' ? 'Используйте хорошее освещение' : 'Use good lighting'}</li>
+                  <li>✓ {lang === 'ru' ? 'Используйте заднюю камеру для лучшего качества' : 'Use rear camera for better quality'}</li>
+                  <li>✓ {lang === 'ru' ? 'Хорошее освещение без теней' : 'Good lighting without shadows'}</li>
                   <li>✓ {lang === 'ru' ? 'Держите камеру стабильно' : 'Hold camera steady'}</li>
-                  <li>✓ {lang === 'ru' ? 'Смотрите прямо в камеру' : 'Look directly at camera'}</li>
-                  <li>✓ {lang === 'ru' ? 'Избегайте теней на лице' : 'Avoid shadows on face'}</li>
+                  <li>✓ {lang === 'ru' ? 'НЕ снимайте экран — только реальные глаза' : 'DON\'T photograph screens — real eyes only'}</li>
                 </ul>
               </div>
             </div>
