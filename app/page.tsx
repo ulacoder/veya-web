@@ -172,28 +172,108 @@ export default function Home() {
     }, 1500)
   }
 
-  const handleScan = () => {
+  const handleScan = async () => {
     setScanning(true)
-    setTimeout(() => {
-      const diagnoses = [
-        { name: t.diagnoses.healthy, rec: lang === 'ru' ? 'Профилактические осмотры раз в год' : 'Preventive check-ups once a year', details: lang === 'ru' ? 'Признаков заболеваний не обнаружено. Продолжайте поддерживать гигиену глаз.' : 'No signs of disease detected. Continue to maintain eye hygiene.' },
-        { name: t.diagnoses.cataract, rec: lang === 'ru' ? 'Рекомендуется консультация офтальмолога' : 'Ophthalmologist consultation recommended', details: lang === 'ru' ? 'Обнаружено помутнение хрусталика. Необходима консультация специалиста для определения стадии.' : 'Lens clouding detected. Specialist consultation needed to determine stage.' },
-        { name: t.diagnoses.conjunctivitis, rec: lang === 'ru' ? 'Обратитесь к врачу для назначения лечения' : 'See a doctor for treatment', details: lang === 'ru' ? 'Выявлены признаки воспаления конъюнктивы. Требуется медикаментозное лечение.' : 'Signs of conjunctival inflammation detected. Medical treatment required.' },
-        { name: t.diagnoses.pterygium, rec: lang === 'ru' ? 'Консультация офтальмолога в ближайшее время' : 'Ophthalmologist consultation soon', details: lang === 'ru' ? 'Обнаружен нарост на конъюнктиве. Наблюдение или хирургическое вмешательство по показаниям.' : 'Growth on conjunctiva detected. Observation or surgery as indicated.' },
-      ]
-      const selected = diagnoses[Math.floor(Math.random() * diagnoses.length)]
-      const newResult = {
-        diagnosis: selected.name,
-        confidence: Math.floor(Math.random() * 15) + 85,
-        timestamp: new Date(),
-        recommendation: selected.rec,
-        details: selected.details,
+
+    try {
+      // Request camera access and capture photo
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: 640, height: 480 }
+      })
+
+      // Create video element to capture frame
+      const video = document.createElement('video')
+      video.srcObject = stream
+      video.play()
+
+      // Wait for video to be ready
+      await new Promise(resolve => {
+        video.onloadedmetadata = resolve
+      })
+
+      // Capture frame to canvas
+      const canvas = document.createElement('canvas')
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      const ctx = canvas.getContext('2d')
+      ctx?.drawImage(video, 0, 0)
+
+      // Stop camera
+      stream.getTracks().forEach(track => track.stop())
+
+      // Convert to blob and send to API
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((b) => resolve(b!), 'image/jpeg', 0.95)
+      })
+
+      const formData = new FormData()
+      formData.append('file', blob, 'eye.jpg')
+
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) throw new Error('Analysis failed')
+
+      const data = await response.json()
+
+      // Map diagnosis to translations
+      const diagnosisMap: Record<string, string> = {
+        'Normal': t.diagnoses.healthy,
+        'Cataract': t.diagnoses.cataract,
+        'Conjunctivitis': t.diagnoses.conjunctivitis,
+        'Pterygium': t.diagnoses.pterygium,
       }
+
+      const recommendationMap: Record<string, { ru: string, en: string, detailsRu: string, detailsEn: string }> = {
+        'Normal': {
+          ru: 'Профилактические осмотры раз в год',
+          en: 'Preventive check-ups once a year',
+          detailsRu: 'Признаков заболеваний не обнаружено. Продолжайте поддерживать гигиену глаз.',
+          detailsEn: 'No signs of disease detected. Continue to maintain eye hygiene.'
+        },
+        'Cataract': {
+          ru: 'Рекомендуется консультация офтальмолога',
+          en: 'Ophthalmologist consultation recommended',
+          detailsRu: 'Обнаружено помутнение хрусталика. Необходима консультация специалиста для определения стадии.',
+          detailsEn: 'Lens clouding detected. Specialist consultation needed to determine stage.'
+        },
+        'Conjunctivitis': {
+          ru: 'Обратитесь к врачу для назначения лечения',
+          en: 'See a doctor for treatment',
+          detailsRu: 'Выявлены признаки воспаления конъюнктивы. Требуется медикаментозное лечение.',
+          detailsEn: 'Signs of conjunctival inflammation detected. Medical treatment required.'
+        },
+        'Pterygium': {
+          ru: 'Консультация офтальмолога в ближайшее время',
+          en: 'Ophthalmologist consultation soon',
+          detailsRu: 'Обнаружен нарост на конъюнктиве. Наблюдение или хирургическое вмешательство по показаниям.',
+          detailsEn: 'Growth on conjunctiva detected. Observation or surgery as indicated.'
+        },
+      }
+
+      const recommendation = recommendationMap[data.diagnosis]
+
+      const newResult = {
+        diagnosis: diagnosisMap[data.diagnosis] || data.diagnosis,
+        confidence: data.confidence,
+        timestamp: new Date(),
+        recommendation: lang === 'ru' ? recommendation.ru : recommendation.en,
+        details: lang === 'ru' ? recommendation.detailsRu : recommendation.detailsEn,
+      }
+
       setResult(newResult)
-      setScanHistory(prev => [newResult, ...prev].slice(0, 10)) // Keep last 10 scans
-      setScanning(false)
+      setScanHistory(prev => [newResult, ...prev].slice(0, 10))
       setScreen('analysis')
-    }, 3000)
+
+    } catch (error) {
+      console.error('Scan error:', error)
+      // Fallback to demo mode on error
+      handleDemo()
+    } finally {
+      setScanning(false)
+    }
   }
 
   const handleDemo = () => {
