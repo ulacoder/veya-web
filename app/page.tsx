@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Eye, Camera, Activity, CheckCircle2, AlertCircle, Clock, Sparkles, Zap, Moon, Sun, Globe } from 'lucide-react'
 
 type Screen = 'home' | 'scan' | 'analysis'
@@ -121,61 +121,111 @@ export default function Home() {
   const [scanHistory, setScanHistory] = useState<ScanResult[]>([])
   const [error, setError] = useState<string | null>(null)
 
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [stream, setStream] = useState<MediaStream | null>(null)
+  const [capturedImage, setCapturedImage] = useState<string | null>(null)
+
   const t = translations[lang]
 
   useEffect(() => {
     document.body.className = theme
   }, [theme])
 
+  // Start camera when entering scan screen
+  useEffect(() => {
+    if (screen === 'scan' && !capturedImage) {
+      startCamera()
+    }
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop())
+      }
+    }
+  }, [screen])
+
+  const startCamera = async () => {
+    try {
+      setError(null)
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: 1280, height: 720 }
+      })
+      setStream(mediaStream)
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream
+      }
+    } catch (err) {
+      setError(lang === 'ru'
+        ? 'Не удалось получить доступ к камере. Проверьте разрешения.'
+        : 'Unable to access camera. Please check permissions.')
+      console.error('Camera error:', err)
+    }
+  }
+
+  const capturePhoto = () => {
+    const video = videoRef.current
+    const canvas = canvasRef.current
+
+    if (!video || !canvas) return
+
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    ctx.drawImage(video, 0, 0)
+    const imageUrl = canvas.toDataURL('image/jpeg', 0.95)
+    setCapturedImage(imageUrl)
+
+    // Stop camera after capture
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop())
+      setStream(null)
+    }
+  }
+
+  const retakePhoto = () => {
+    setCapturedImage(null)
+    startCamera()
+  }
+
   const handleStartScan = () => {
     setScreen('scan')
   }
 
   const handleScan = async () => {
+    if (!capturedImage) {
+      capturePhoto()
+      return
+    }
+
     setScanning(true)
+    setError(null)
 
     try {
-      // Request camera access and capture photo
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user', width: 640, height: 480 }
-      })
-
-      // Create video element to capture frame
-      const video = document.createElement('video')
-      video.srcObject = stream
-      video.play()
-
-      // Wait for video to be ready
-      await new Promise(resolve => {
-        video.onloadedmetadata = resolve
-      })
-
-      // Capture frame to canvas
-      const canvas = document.createElement('canvas')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      const ctx = canvas.getContext('2d')
-      ctx?.drawImage(video, 0, 0)
-
-      // Stop camera
-      stream.getTracks().forEach(track => track.stop())
-
-      // Convert to blob and send to API
-      const blob = await new Promise<Blob>((resolve) => {
-        canvas.toBlob((b) => resolve(b!), 'image/jpeg', 0.95)
-      })
+      // Convert base64 to blob
+      const response = await fetch(capturedImage)
+      const blob = await response.blob()
 
       const formData = new FormData()
       formData.append('file', blob, 'eye.jpg')
 
-      const response = await fetch('/api/analyze', {
+      console.log('Sending to API...')
+      const apiResponse = await fetch('/api/analyze', {
         method: 'POST',
         body: formData,
       })
 
-      if (!response.ok) throw new Error('Analysis failed')
+      console.log('API response status:', apiResponse.status)
 
-      const data = await response.json()
+      if (!apiResponse.ok) {
+        const errorText = await apiResponse.text()
+        console.error('API error:', errorText)
+        throw new Error(`Analysis failed: ${apiResponse.status}`)
+      }
+
+      const data = await apiResponse.json()
+      console.log('API result:', data)
 
       // Map diagnosis to translations
       const diagnosisMap: Record<string, string> = {
@@ -228,8 +278,9 @@ export default function Home() {
 
     } catch (error) {
       console.error('Scan error:', error)
-      // Fallback to demo mode on error
-      handleDemo()
+      setError(lang === 'ru'
+        ? 'Ошибка анализа. Попробуйте ещё раз.'
+        : 'Analysis error. Please try again.')
     } finally {
       setScanning(false)
     }
@@ -382,50 +433,98 @@ export default function Home() {
       {/* Scan Screen */}
       {screen === 'scan' && (
         <div className="min-h-screen flex items-center justify-center px-6 py-12 relative z-10">
-          <div className="max-w-lg w-full fade-in">
+          <div className="max-w-2xl w-full fade-in">
             <button
-              onClick={() => setScreen('home')}
+              onClick={() => {
+                if (stream) {
+                  stream.getTracks().forEach(track => track.stop())
+                }
+                setCapturedImage(null)
+                setScreen('home')
+              }}
               className={`mb-10 transition text-lg ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
             >
               {t.buttons.back}
             </button>
 
-            <div className="card-solid p-10 text-center">
-              <div className="inline-flex items-center justify-center w-40 h-40 mb-10 rounded-full bg-blue-600 glow-blue">
-                <Camera className="w-20 h-20 text-white" />
+            <div className="card-solid p-6">
+              {/* Camera Preview or Captured Image */}
+              <div className="relative mb-6 rounded-2xl overflow-hidden bg-black" style={{ aspectRatio: '4/3' }}>
+                {!capturedImage ? (
+                  <>
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-64 h-64 border-4 border-blue-500 rounded-full opacity-30"></div>
+                    </div>
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <p className="text-white text-sm bg-black/50 backdrop-blur-sm inline-block px-4 py-2 rounded-full">
+                        {lang === 'ru' ? 'Расположите глаз в центре круга' : 'Position your eye in the center circle'}
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  <img src={capturedImage} alt="Captured" className="w-full h-full object-cover" />
+                )}
               </div>
 
-              <h2 className={`text-4xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                {lang === 'ru' ? 'Сканирование глаза' : 'Eye Scanning'}
-              </h2>
-              <p className={`mb-10 text-lg leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                {lang === 'ru'
-                  ? 'Мы запросим доступ к камере и сделаем снимок вашего глаза для AI анализа'
-                  : 'We will request camera access and capture your eye photo for AI analysis'}
-              </p>
+              <canvas ref={canvasRef} style={{ display: 'none' }} />
 
               {error && (
-                <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 text-red-300 text-sm mb-6">
+                <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 text-red-300 text-sm mb-4">
                   {error}
                 </div>
               )}
 
-              <button
-                onClick={handleScan}
-                disabled={scanning}
-                className="w-full bg-blue-600 text-white py-5 rounded-xl font-semibold text-lg hover:shadow-2xl transition disabled:opacity-50 flex items-center justify-center gap-3 glow-blue"
-              >
-                {scanning ? (
-                  <>
-                    <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin" />
-                    {t.buttons.scanning}
-                  </>
-                ) : (
-                  t.buttons.startScan
-                )}
-              </button>
+              {/* Controls */}
+              {!capturedImage ? (
+                <button
+                  onClick={capturePhoto}
+                  disabled={!stream}
+                  className="w-full bg-blue-600 text-white py-5 rounded-xl font-semibold text-lg hover:shadow-2xl transition disabled:opacity-50 flex items-center justify-center gap-3 glow-blue"
+                >
+                  <Camera className="w-6 h-6" />
+                  {lang === 'ru' ? 'Сделать снимок' : 'Capture Photo'}
+                </button>
+              ) : (
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    onClick={retakePhoto}
+                    className={`py-4 rounded-xl font-semibold text-lg transition ${
+                      theme === 'dark'
+                        ? 'bg-white/10 text-white hover:bg-white/20'
+                        : 'bg-black/10 text-black hover:bg-black/20'
+                    }`}
+                  >
+                    {lang === 'ru' ? 'Переснять' : 'Retake'}
+                  </button>
+                  <button
+                    onClick={handleScan}
+                    disabled={scanning}
+                    className="bg-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-2xl transition disabled:opacity-50 flex items-center justify-center gap-3 glow-blue"
+                  >
+                    {scanning ? (
+                      <>
+                        <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin" />
+                        {t.buttons.scanning}
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-5 h-5" />
+                        {lang === 'ru' ? 'Анализировать' : 'Analyze'}
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
 
-              <div className={`mt-8 p-6 rounded-xl ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}>
+              {/* Tips */}
+              <div className={`mt-6 p-6 rounded-xl ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}>
                 <h3 className={`text-sm font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
                   {lang === 'ru' ? 'Советы для лучшего результата' : 'Tips for best results'}
                 </h3>
@@ -433,7 +532,7 @@ export default function Home() {
                   <li>✓ {lang === 'ru' ? 'Используйте хорошее освещение' : 'Use good lighting'}</li>
                   <li>✓ {lang === 'ru' ? 'Держите камеру стабильно' : 'Hold camera steady'}</li>
                   <li>✓ {lang === 'ru' ? 'Смотрите прямо в камеру' : 'Look directly at camera'}</li>
-                  <li>✓ {lang === 'ru' ? 'Избегайте теней' : 'Avoid shadows'}</li>
+                  <li>✓ {lang === 'ru' ? 'Избегайте теней на лице' : 'Avoid shadows on face'}</li>
                 </ul>
               </div>
             </div>
