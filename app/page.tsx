@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Eye, Camera, Activity, CheckCircle2, AlertCircle, Clock, Sparkles, Zap, Moon, Sun, Globe } from 'lucide-react'
+import { Eye, Camera, Activity, CheckCircle2, AlertCircle, Clock, Sparkles, Zap, Moon, Sun, Globe, Home, Scan, BookOpen } from 'lucide-react'
 
-type Screen = 'home' | 'scan' | 'analysis'
+type Screen = 'home' | 'scan' | 'guide' | 'analysis'
 type Theme = 'dark' | 'light'
 type Language = 'ru' | 'en'
 
@@ -44,6 +44,9 @@ const translations = {
       scanning: 'Analyzing...',
       newScan: 'New Scan',
       home: 'Home',
+      tabHome: 'Главная',
+      tabScan: 'Сканирование',
+      tabGuide: 'Инструкция',
     },
     guide: {
       title: 'Как это работает',
@@ -87,6 +90,9 @@ const translations = {
       scanning: 'Анализ...',
       newScan: 'Новое сканирование',
       home: 'На главную',
+      tabHome: 'Home',
+      tabScan: 'Scan',
+      tabGuide: 'Guide',
     },
     guide: {
       title: 'How it works',
@@ -374,7 +380,7 @@ export default function Home() {
 
       {/* Home Screen */}
       {screen === 'home' && (
-        <div className="min-h-screen flex items-center justify-center px-6 py-20 relative z-10">
+        <div className="min-h-screen flex items-center justify-center px-6 py-20 pb-32 relative z-10">
           <div className="max-w-6xl w-full">
             {/* Hero */}
             <div className="text-center mb-16 fade-in">
@@ -427,69 +433,14 @@ export default function Home() {
                 </p>
               </div>
             </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 mb-16 fade-in" style={{ animationDelay: '0.4s' }}>
-              <button
-                onClick={handleStartScan}
-                className={`flex-1 py-5 px-10 rounded-2xl font-semibold text-lg hover:scale-105 transition-transform shadow-2xl ${
-                  theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'
-                }`}
-              >
-                {t.buttons.startScan}
-              </button>
-              <button
-                onClick={handleDemo}
-                className="flex-1 bg-blue-600 text-white py-5 px-10 rounded-2xl font-semibold text-lg hover:scale-105 transition-transform glow-blue"
-              >
-                {t.buttons.demo}
-              </button>
-            </div>
-
-            {/* Quick Guide */}
-            <div className="card-solid p-10 fade-in" style={{ animationDelay: '0.5s' }}>
-              <h3 className={`text-2xl font-semibold mb-8 text-center ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                {t.guide.title}
-              </h3>
-              <div className="grid sm:grid-cols-4 gap-8">
-                {[
-                  { num: '1', text: t.guide.step1 },
-                  { num: '2', text: t.guide.step2 },
-                  { num: '3', text: t.guide.step3 },
-                  { num: '4', text: t.guide.step4 },
-                ].map((step, i) => (
-                  <div key={i} className="text-center">
-                    <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold text-2xl mx-auto mb-4 glow-blue">
-                      {step.num}
-                    </div>
-                    <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
-                      {step.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       )}
 
       {/* Scan Screen */}
       {screen === 'scan' && (
-        <div className="min-h-screen flex items-center justify-center px-6 py-12 relative z-10">
+        <div className="min-h-screen flex items-center justify-center px-6 py-12 pb-32 relative z-10">
           <div className="max-w-2xl w-full fade-in">
-            <button
-              onClick={() => {
-                if (stream) {
-                  stream.getTracks().forEach(track => track.stop())
-                }
-                setCapturedImage(null)
-                setScreen('home')
-              }}
-              className={`mb-10 transition text-lg ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
-            >
-              {t.buttons.back}
-            </button>
-
             <div className="card-solid p-6">
               {/* Camera Preview or Captured Image */}
               <div className="relative mb-6 rounded-2xl overflow-hidden bg-black" style={{ aspectRatio: '4/3' }}>
@@ -615,6 +566,36 @@ export default function Home() {
         </div>
       )}
 
+      {/* Guide Screen */}
+      {screen === 'guide' && (
+        <div className="min-h-screen flex items-center justify-center px-6 py-20 pb-32 relative z-10">
+          <div className="max-w-4xl w-full fade-in">
+            <div className="card-solid p-10">
+              <h3 className={`text-4xl font-bold mb-12 text-center ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                {t.guide.title}
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-8">
+                {[
+                  { num: '1', text: t.guide.step1 },
+                  { num: '2', text: t.guide.step2 },
+                  { num: '3', text: t.guide.step3 },
+                  { num: '4', text: t.guide.step4 },
+                ].map((step, i) => (
+                  <div key={i} className="text-center">
+                    <div className="w-20 h-20 rounded-3xl bg-blue-600 text-white flex items-center justify-center font-bold text-3xl mx-auto mb-6 glow-blue">
+                      {step.num}
+                    </div>
+                    <p className={`text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                      {step.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Analysis Screen */}
       {screen === 'analysis' && result && (
         <div className="min-h-screen px-6 py-16 relative z-10">
@@ -730,6 +711,55 @@ export default function Home() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Bottom Navigation Bar */}
+      {screen !== 'analysis' && (
+        <nav className={`fixed bottom-0 left-0 right-0 z-50 backdrop-blur-2xl border-t ${
+          theme === 'dark'
+            ? 'bg-black/80 border-white/10'
+            : 'bg-white/80 border-black/10'
+        }`}>
+          <div className="max-w-md mx-auto px-6 py-4">
+            <div className="flex items-center justify-around gap-4">
+              <button
+                onClick={() => setScreen('home')}
+                className={`flex flex-col items-center gap-1.5 flex-1 transition ${
+                  screen === 'home'
+                    ? 'text-blue-600'
+                    : theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
+                }`}
+              >
+                <Home className={`w-6 h-6 ${screen === 'home' ? 'fill-current' : ''}`} />
+                <span className="text-xs font-medium">{t.buttons.tabHome}</span>
+              </button>
+
+              <button
+                onClick={() => setScreen('scan')}
+                className={`flex flex-col items-center gap-1.5 flex-1 transition ${
+                  screen === 'scan'
+                    ? 'text-blue-600'
+                    : theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
+                }`}
+              >
+                <Camera className={`w-6 h-6 ${screen === 'scan' ? 'fill-current' : ''}`} />
+                <span className="text-xs font-medium">{t.buttons.tabScan}</span>
+              </button>
+
+              <button
+                onClick={() => setScreen('guide')}
+                className={`flex flex-col items-center gap-1.5 flex-1 transition ${
+                  screen === 'guide'
+                    ? 'text-blue-600'
+                    : theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
+                }`}
+              >
+                <BookOpen className={`w-6 h-6 ${screen === 'guide' ? 'fill-current' : ''}`} />
+                <span className="text-xs font-medium">{t.buttons.tabGuide}</span>
+              </button>
+            </div>
+          </div>
+        </nav>
       )}
     </main>
   )

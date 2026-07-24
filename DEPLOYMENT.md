@@ -1,51 +1,81 @@
-# VEya AI Integration Guide
+# VEya Production Deployment Guide
 
-## 🚀 Quick Setup (5 minutes)
+**Last Updated:** 2026-07-23  
+**Status:** ✅ Model Integrated & Local Testing Complete
 
-### 1. Deploy Backend to Railway
+## Current Status
 
-**Step 1:** Push backend to GitHub
+✅ **Local Development Working**
+- Backend: http://localhost:8000
+- Frontend: http://localhost:3000
+- Model: Integrated and tested (81.22% accuracy)
+- Test Results: 99.99% Cataract, 100% Normal detection
+
+## 🚀 Quick Deploy (Production)
+
+### Option 1: Railway (Recommended)
+
+**Step 1:** Prepare Model File
+```bash
+# Copy model to backend directory
+mkdir -p backend/models
+cp ~/veya-dataset/trained_model/veya_model_final.keras backend/models/
+```
+
+**Step 2:** Update Model Path
+Edit `backend/app/main.py`:
+```python
+MODEL_PATH = "models/veya_model_final.keras"  # Change from C:/Users/...
+```
+
+**Step 3:** Deploy Backend to Railway
 ```bash
 cd backend
 git init
 git add .
-git commit -m "Initial backend"
+git commit -m "Add VEya AI model"
 git remote add origin https://github.com/YOUR_USERNAME/veya-backend.git
 git push -u origin main
 ```
 
-**Step 2:** Deploy on Railway
 1. Go to https://railway.app
 2. Click "New Project" → "Deploy from GitHub"
 3. Select your `veya-backend` repository
-4. Railway will auto-detect Dockerfile and deploy
+4. Railway auto-deploys
+5. Get public URL: `https://veya-backend.railway.app`
 
-**Step 3:** Upload Model
-- Download model from: `C:/Users/Ulagat/veya-dataset/trained_model/veya_model_final.keras`
-- Upload to Railway Volume or use Google Drive/Dropbox public link
-- Update `MODEL_PATH` in Railway environment variables
+**Step 4:** Connect Frontend
 
-**Step 4:** Get Public URL
-- Railway provides a public URL like: `https://veya-backend-production.up.railway.app`
-- Copy this URL
+1. Go to Vercel dashboard: https://vercel.com
+2. Select `veya-web` project
+3. Settings → Environment Variables
+4. Add:
+   ```
+   MODEL_API_URL=https://your-backend-url.railway.app
+   ```
+5. Redeploy from Deployments tab
 
-### 2. Update Vercel Frontend
+### Option 2: Render
 
-**Step 1:** Add Environment Variable
+1. Go to https://render.com
+2. Create new Web Service
+3. Connect GitHub repo
+4. Settings:
+   - **Root Directory:** `backend`
+   - **Build Command:** `pip install -r requirements.txt`
+   - **Start Command:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+5. Deploy and get public URL
+
+### Option 3: Heroku
+
 ```bash
-cd ../veya-web
-vercel env add MODEL_API_URL
-# Paste your Railway URL: https://veya-backend-production.up.railway.app
-```
-
-**Step 2:** Deploy
-```bash
+cd backend
+heroku create veya-backend
+echo "web: uvicorn app.main:app --host 0.0.0.0 --port \$PORT" > Procfile
 git add .
-git commit -m "Connect real AI model"
-git push origin main
+git commit -m "Add Heroku config"
+git push heroku main
 ```
-
-Vercel auto-deploys on push.
 
 ## ✅ Test Live
 
