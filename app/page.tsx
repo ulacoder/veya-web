@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Eye, Camera, Activity, CheckCircle2, AlertCircle, Clock, Sparkles, Zap, Moon, Sun, Globe, Home, Scan, BookOpen } from 'lucide-react'
+import { Eye, Camera, Activity, CheckCircle2, AlertCircle, Clock, Sparkles, Zap, Moon, Sun, Globe, Home as HomeIcon, Camera as CameraIcon, BookOpen } from 'lucide-react'
 
 type Screen = 'home' | 'scan' | 'guide' | 'analysis'
 type Theme = 'dark' | 'light'
@@ -730,7 +730,7 @@ export default function Home() {
                     : theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
                 }`}
               >
-                <Home className={`w-6 h-6 ${screen === 'home' ? 'fill-current' : ''}`} />
+                <HomeIcon className={`w-6 h-6 ${screen === 'home' ? 'fill-current' : ''}`} />
                 <span className="text-xs font-medium">{t.buttons.tabHome}</span>
               </button>
 
@@ -742,7 +742,7 @@ export default function Home() {
                     : theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
                 }`}
               >
-                <Camera className={`w-6 h-6 ${screen === 'scan' ? 'fill-current' : ''}`} />
+                <CameraIcon className={`w-6 h-6 ${screen === 'scan' ? 'fill-current' : ''}`} />
                 <span className="text-xs font-medium">{t.buttons.tabScan}</span>
               </button>
 
