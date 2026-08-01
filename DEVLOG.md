@@ -80,3 +80,5 @@ Created a full-stack web application for the Veya smart glasses ecosystem:
 **Status:** ✅ MVP Complete and Deployed
 **Demo Mode:** Fully functional
 **Hardware Integration:** Ready for Pi connection
+
+<!-- 2026-08-01 11:59:00 - Fix mobile styling -->
