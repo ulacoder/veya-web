@@ -84,3 +84,5 @@ Created a full-stack web application for the Veya smart glasses ecosystem:
 <!-- 2026-08-01 11:59:00 - Fix mobile styling -->
 
 <!-- 2026-08-01 19:44:00 - Update config -->
+
+<!-- 2026-08-02 15:31:00 - Update README -->
