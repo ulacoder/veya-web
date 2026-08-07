@@ -130,3 +130,5 @@ Created a full-stack web application for the Veya smart glasses ecosystem:
 <!-- 2026-08-07 20:10:00 - Update README -->
 
 <!-- 2026-08-07 18:27:00 - Add loading states -->
+
+<!-- 2026-08-07 09:37:00 - Fix API endpoint -->
