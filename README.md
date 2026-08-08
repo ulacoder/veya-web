@@ -190,9 +190,9 @@ MIT License - feel free to use for your projects
 
 ## 🏆 Acknowledgments
 
-- **NASA SEES x Stardance 2026** - Project showcase
 - **Dataset Sources:** Mendeley Eye Diseases, Roboflow HORUS, Kaggle
 - **Training:** Google Colab with T4 GPU
+- **Inspiration:** Accessible healthcare through AI
 
 ## 🤝 Contributing
 
