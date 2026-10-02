@@ -7,9 +7,10 @@
 <meta name="description" content="Veya — ИИ-скрининг диабетической ретинопатии, глаукомы и катаракты по снимку глазного дна со смартфона и 3D-печатной насадки.">
 <meta name="theme-color" content="#07130e">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://veyaai.vercel.app/">
 <meta property="og:title" content="Veya — скрининг сетчатки за 30 секунд">
 <meta property="og:description" content="Смартфон, насадка себестоимостью $50–80 и ИИ-модель вместо фундус-камеры за $10 000.">
-<meta property="og:image" content="/og.jpg">
+<meta property="og:image" content="https://veyaai.vercel.app/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
@@ -60,19 +61,22 @@ a{color:inherit}
 .nav ul a:hover{color:var(--paper)}
 .nav .cta{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;padding:9px 14px;border:1px solid var(--line);border-radius:999px;white-space:nowrap}
 .nav .cta:hover{border-color:var(--veya);color:var(--veya)}
+.nav{transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
+.nav.solid{background:rgba(7,19,14,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom-color:var(--line)}
 @media (max-width:860px){.nav ul{display:none}}
+@media (max-width:480px){.nav .cta[href="#contact"]{display:none}.brand b{letter-spacing:.3em}}
 
-.chapter{position:fixed;left:var(--gutter);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:10;display:flex;align-items:center;gap:14px;
+.chapter{position:fixed;left:calc(var(--gutter) - 12px);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:10;display:flex;align-items:center;gap:14px;padding:7px 12px;border-radius:999px;background:rgba(7,19,14,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:opacity .3s;
   font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-variant-numeric:tabular-nums}
 .chapter .num{color:var(--paper)}
 .chapter .track{width:90px;height:1px;background:var(--line);position:relative;overflow:hidden}
 .chapter .track i{position:absolute;inset:0;background:var(--veya);transform-origin:left;transform:scaleX(0)}
-@media (max-width:600px){.chapter .name{display:none}}
+@media (max-width:860px){.chapter{display:none}}
 
 /* ---------- type ---------- */
 .eyebrow{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--veya);margin:0 0 18px}
 h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:-.02em}
-h1{font-size:clamp(2.5rem,6.6vw,6.2rem);line-height:1.0}
+h1{font-size:clamp(2.4rem,min(6.6vw,10.5vh),6.2rem);line-height:1.0}
 h2{font-size:clamp(1.9rem,4.2vw,3.5rem);line-height:1.06}
 h3{font-size:1.15rem;line-height:1.25;letter-spacing:0}
 .grad{text-shadow:none;background:linear-gradient(95deg,var(--veya) 10%,var(--lime) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -87,28 +91,41 @@ main{position:relative;z-index:1;padding-inline:var(--gutter)}
 .sec{position:relative;min-height:100vh;min-height:100svh}
 .wrap{max-width:1240px;margin-inline:auto}
 .pad{padding-block:clamp(96px,14vh,160px)}
-.sticky{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center}
+.sticky{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;padding-top:56px}
+@media (min-width:861px) and (max-height:860px){
+  .sticky h2{font-size:clamp(1.7rem,3.2vw,2.5rem)}
+  .sticky .eyebrow{margin-bottom:10px}
+  .sticky .lead{margin-top:14px;font-size:1rem}
+  dl.spec{margin-top:18px} dl.spec dt,dl.spec dd{padding-block:7px}
+  ol.steps{margin-top:18px} ol.steps li{padding:10px 0} ol.steps p{font-size:14.5px}
+}
+@media (min-width:861px) and (max-height:700px){.device .lead{display:none} ol.steps p{display:none}}
 
 /* hero */
-.hero{display:flex;align-items:center;padding-block:120px 90px}
+.hero{display:flex;flex-direction:column;padding-block:96px 28px}
 .hero .wrap{width:100%}
+.hero-main{flex:1;display:flex;align-items:center}
+.hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-top:28px}
 .hero-copy{max-width:640px}
 .hero h1 span{display:block}
+.lead-short{display:none}
+@media (max-width:520px){.lead-long{display:none}.lead-short{display:inline}.hero .btns .btn:not(.solid){display:none}}
+@media (max-width:860px) and (max-height:760px){dl.spec .opt{display:none}}
+@media (max-width:860px){.hero-foot{display:none}.hero{padding-block:84px 24px}.hero .eyebrow{margin-bottom:12px}.hero .lead{margin-top:16px;font-size:1rem}.hero .btns{margin-top:22px}}
+@media (max-width:860px) and (max-height:700px){.hero h1{font-size:2.1rem}.hero .eyebrow{display:none}}
 .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
 .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:14px 20px;border-radius:999px;border:1px solid var(--line);background:rgba(7,19,14,.4);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:border-color .2s,background .2s,color .2s;cursor:pointer;color:var(--paper)}
 .btn:hover{border-color:var(--veya)}
 .btn.solid{background:var(--veya);color:var(--ground);border-color:var(--veya)}
 .btn.solid:hover{background:var(--lime);border-color:var(--lime)}
-.hud{position:absolute;right:0;bottom:84px;display:grid;gap:6px;justify-items:end;text-align:right;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-variant-numeric:tabular-nums}
+.hud{display:grid;gap:6px;justify-items:end;text-align:right;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-variant-numeric:tabular-nums}
 .hud b{color:var(--paper);font-weight:500}
 .hud .hint{color:var(--veya)}
-.scrollcue{position:absolute;left:0;bottom:84px;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:10px}
+.scrollcue{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:10px}
 .scrollcue i{display:block;width:1px;height:34px;background:linear-gradient(var(--veya),transparent);animation:cue 2.2s ease-in-out infinite}
 @keyframes cue{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(.2);transform-origin:bottom}}
 @media (max-width:860px){
-  .hero{align-items:flex-end;padding-block:120px 140px}
-  .hud{bottom:auto;top:96px;right:0}
-  .scrollcue{bottom:90px}
+  .hero-main{align-items:flex-end}
 }
 @media (prefers-reduced-motion:reduce){.scrollcue i{animation:none}}
 
@@ -167,7 +184,7 @@ ol.steps p{color:var(--paper);opacity:.8;font-size:15.5px}
 .anat span{padding:4px 8px;background:rgba(7,19,14,.7);border-radius:4px}
 .scanhud{position:absolute;right:var(--gutter);top:96px;text-align:right;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);opacity:0;font-variant-numeric:tabular-nums}
 .scanhud b{display:block;font-family:var(--f-display);font-weight:400;font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-.02em;color:var(--paper);text-transform:none}
-.result{position:absolute;right:var(--gutter);bottom:84px;width:min(360px,calc(100% - 2*var(--gutter)));background:rgba(7,19,14,.86);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;opacity:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);pointer-events:none}
+.result{position:absolute;left:0;top:0;width:min(360px,calc(100% - 2*var(--gutter)));background:rgba(7,19,14,.86);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;opacity:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);pointer-events:none}
 .result .hd{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
 .result .dx{margin:12px 0 4px;font-family:var(--f-display);font-size:1.15rem;line-height:1.25}
 .result .dx em{font-style:normal;color:var(--retina)}
@@ -190,8 +207,12 @@ ol.steps p{color:var(--paper);opacity:.8;font-size:15.5px}
   dl.spec dt,dl.spec dd{padding-block:8px}
   ol.steps{margin-top:20px}
   ol.steps li{padding:10px 0}
-  .result{display:none}
-  .scanhud{top:72px}
+  .how .btns{display:none}
+  .result{width:calc(100% - 2*var(--gutter))}
+  .scanhud{top:64px;right:auto;left:var(--gutter);text-align:left;display:flex;align-items:baseline;gap:10px}
+  .scanhud b{display:inline;font-size:1.25rem}
+  .det .tag{font-size:10px;padding:2px 5px}
+  .part{font-size:10.5px}
   .hero{padding-block:120px 96px}
 }
 /* model */
@@ -342,23 +363,25 @@ footer p{max-width:46em}
 <main>
   <!-- 0 -->
   <section class="sec hero" id="hero" data-sec>
-    <div class="wrap" style="position:relative;height:100%">
-      <div class="hero-copy shade">
+    <div class="wrap hero-main">
+      <div class="hero-copy shade" id="heroCopy">
         <p class="eyebrow">ИИ-скрининг заболеваний глаз</p>
         <h1><span>Смартфон.</span><span>Насадка.</span><span class="grad">30 секунд.</span></h1>
-        <p class="lead">Veya находит признаки диабетической ретинопатии, глаукомы и катаракты по снимку глазного дна, сделанному смартфоном с насадкой себестоимостью $50–80. Без фундус-камеры за $10&nbsp;000 и без офтальмолога на этапе съёмки.</p>
+        <p class="lead"><span class="lead-long">Veya находит признаки диабетической ретинопатии, глаукомы и катаракты по снимку глазного дна, сделанному смартфоном с насадкой себестоимостью $50–80. Без фундус-камеры за $10&nbsp;000 и без офтальмолога на этапе съёмки.</span><span class="lead-short">Признаки ретинопатии, глаукомы и катаракты по снимку глазного дна со смартфона. Насадка себестоимостью $50–80 вместо фундус-камеры за $10&nbsp;000.</span></p>
         <div class="btns">
           <a class="btn solid" href="#device">Как это устроено</a>
           <a class="btn" href="https://veya-ai-screening.vercel.app/" target="_blank" rel="noopener">Открыть платформу ↗</a>
         </div>
       </div>
     </div>
-    <div class="hud" aria-hidden="true" style="right:var(--gutter)">
-      <span>OD · правый глаз</span>
-      <span>Зрачок <b id="pupilmm">3.9 мм</b></span>
-      <span class="hint">Кликните: зрачковый рефлекс</span>
+    <div class="wrap hero-foot" id="heroFoot">
+      <div class="scrollcue"><i></i>Листайте</div>
+      <div class="hud" aria-hidden="true">
+        <span>OD · правый глаз</span>
+        <span>Зрачок <b id="pupilmm">3.9 мм</b></span>
+        <span class="hint">Кликните: зрачковый рефлекс</span>
+      </div>
     </div>
-    <div class="scrollcue" style="left:var(--gutter)"><i></i>Листайте</div>
   </section>
 
   <!-- 1 -->
@@ -420,9 +443,9 @@ footer p{max-width:46em}
           <h2>Фундус-камера, которая надевается на iPhone</h2>
           <p class="lead">3D-печатный корпус и конденсорная линза 20&nbsp;D фокусируют камеру смартфона на сетчатке через зрачок. Врач держит телефон одной рукой и видит глазное дно на экране.</p>
           <dl class="spec">
-            <dt>Оптика</dt><dd>линза 20 D, Ø до 55 мм</dd>
-            <dt>Детали</dt><dd>7 деталей, 3D-печать</dd>
-            <dt>Крепёж</dt><dd>7 болтов M3, винт M8</dd>
+            <dt class="opt">Оптика</dt><dd class="opt">линза 20 D, Ø до 55 мм</dd>
+            <dt class="opt">Детали</dt><dd class="opt">7 деталей, 3D-печать</dd>
+            <dt class="opt">Крепёж</dt><dd class="opt">7 болтов M3, винт M8</dd>
             <dt>Себестоимость</dt><dd><b>$50–80</b></dd>
             <dt>Для клиники</dt><dd>$350–500 за систему</dd>
           </dl>
@@ -866,15 +889,54 @@ const dets=[...document.querySelectorAll('.det')];
 const partEls={};document.querySelectorAll('.part').forEach(e=>partEls[e.dataset.p]=e);
 const sayIntro=$('#sayIntro'),sayFact=$('#sayFact'),scanhud=$('#scanhud'),timer=$('#timer'),scanstate=$('#scanstate'),result=$('#result'),pupilmm=$('#pupilmm'),flash=$('#flash');
 
+/* ---------- layout-driven placement of 3D objects ---------- */
+const TAN=.2679;
+const LAY={hero:{cx:0,cy:0,r:100},how:{s:.86,x:.19,y:0},howR:{s:.7,x:.19,y:-.1},dev:{x:1.6,y:-.3,sc:.9},gut:16};
+const resultEl=$('#result'),heroFootEl=$('#heroFoot'),navEl=document.querySelector('.nav'),heroCopyEl=$('#heroCopy'),devCopyEl=document.querySelector('.dev-copy'),howCopyEl=document.querySelector('.how-copy'),cgridEl=document.querySelector('.contact .cgrid'),mainEl=document.querySelector('main'),chapterEl=document.querySelector('.chapter');
+function layout(){
+  const gut=parseFloat(getComputedStyle(mainEl).paddingLeft)||16;LAY.gut=gut;
+  const wrapR=Math.min(vw-gut,(vw+1240)/2);
+  const hc=heroCopyEl.getBoundingClientRect(),hTop=hc.top+scrollY;
+  if(!mobile){const x0=hc.right+32,x1=wrapR,y0=84,y1=vh-120;
+    LAY.hero={cx:(x0+x1)/2,cy:(y0+y1)/2,r:Math.max(50,Math.min((x1-x0)*.44,(y1-y0)*.44,300))};}
+  else{const y0=70,y1=hTop-14;LAY.hero={cx:vw/2,cy:(y0+y1)/2,r:Math.max(34,Math.min(vw*.34,(y1-y0)*.46))};}
+  if(!mobile){const r=howCopyEl.getBoundingClientRect();const x0=r.right+40,x1=wrapR;
+    const size=Math.max(200,Math.min(.86*Math.min(vw,vh),(x1-x0)/.94,(vh-170)/.94));
+    LAY.how={s:size/Math.min(vw,vh),x:((x0+x1)/2-vw/2)/vw,y:.03};
+    const cardH=resultEl.offsetHeight||250;const sizeR=Math.max(160,Math.min(size,(vh-70-56-cardH-18)/.94));
+    LAY.howR={s:sizeR/Math.min(vw,vh),x:LAY.how.x,y:((70+sizeR*.47+6)-vh/2)/vh};}
+  else{const ch=howCopyEl.offsetHeight;const y0=100,y1=vh-64-ch-6;const size=Math.max(120,Math.min((vw-24)/.94,(y1-y0)/.94));
+    LAY.how={s:size/Math.min(vw,vh),x:0,y:((y0+y1)/2-vh/2)/vh};
+    const cardH=resultEl.offsetHeight||250;const y1r=Math.min(y1,vh-64-cardH-10);const sizeR=Math.max(110,Math.min((vw-24)/.94,(y1r-y0)/.94));
+    LAY.howR={s:sizeR/Math.min(vw,vh),x:0,y:((y0+y1r)/2-vh/2)/vh};}
+  const ppw=vh/(2*10.5*TAN);
+  if(!mobile){const r=devCopyEl.getBoundingClientRect();const x0=r.right+24,x1=vw-16;
+    LAY.dev={sc:Math.max(.3,Math.min(.95,(x1-x0)/(ppw*4.6),(vh-150)/(ppw*2.7))),x:((x0+x1)/2-vw/2)/ppw,y:-.3};}
+  else{const ch=devCopyEl.offsetHeight;const y0=64,y1=vh-64-ch;
+    LAY.dev={sc:Math.max(.2,Math.min(.5,(vw-24)/(ppw*4.6),(y1-y0)/(ppw*2.7))),x:0,y:(vh/2-(y0+y1)/2)/ppw};}
+}
+/* keep overlay labels apart and on screen */
+function settle(list,obst){
+  const placed=(obst||[]).slice();
+  list.sort((a,b)=>a.y-b.y);
+  for(const it of list){
+    for(let k=0;k<10;k++){let hit=null;
+      for(const p of placed){if(it.x<p.x+p.w+6&&it.x+it.w+6>p.x&&it.y<p.y+p.h+4&&it.y+it.h+4>p.y){hit=p;break;}}
+      if(!hit)break;it.y=hit.y+hit.h+5;}
+    it.x=Math.max(8,Math.min(vw-it.w-8,it.x));it.y=Math.max(64,Math.min(vh-it.h-8,it.y));
+    placed.push(it);
+  }
+  return list;
+}
 /* ---------- fundus keyframes ---------- */
-function KF(){return mobile?[
+function KF(){const H=LAY.how,G=LAY.howR;return mobile?[
   [0,{s:.95,x:0,y:0,d:1,o:1}],[1.62,{s:.95,x:0,y:0,d:1,o:1}],
   [2.15,{s:1.3,x:.15,y:-.05,d:.3,o:1}],[3.3,{s:1.6,x:.2,y:.05,d:.2,o:1}],[3.82,{s:1.6,x:.2,y:.05,d:.2,o:1}],[4.0,{s:1.8,x:.2,y:.05,d:.2,o:0}],
-  [4.85,{s:.9,x:0,y:-.24,d:1,o:0}],[5.0,{s:.9,x:0,y:-.24,d:1,o:1}],[5.66,{s:.9,x:0,y:-.24,d:1,o:1}],[5.82,{s:.84,x:0,y:-.24,d:1,o:0}]
+  [4.85,{s:H.s,x:H.x,y:H.y,d:1,o:0}],[5.0,{s:H.s,x:H.x,y:H.y,d:1,o:1}],[5.41,{s:H.s,x:H.x,y:H.y,d:1,o:1}],[5.48,{s:G.s,x:G.x,y:G.y,d:1,o:1}],[5.66,{s:G.s,x:G.x,y:G.y,d:1,o:1}],[5.82,{s:G.s*.92,x:G.x,y:G.y,d:1,o:0}]
 ]:[
   [0,{s:.95,x:0,y:0,d:1,o:1}],[1.62,{s:.95,x:0,y:0,d:1,o:1}],
-  [2.15,{s:1.25,x:.23,y:0,d:.5,o:1}],[3.0,{s:1.25,x:.23,y:0,d:.45,o:1}],[3.4,{s:1.7,x:.3,y:.05,d:.28,o:1}],[3.82,{s:1.7,x:.3,y:.05,d:.28,o:1}],[4.0,{s:1.9,x:.3,y:.05,d:.28,o:0}],
-  [4.85,{s:.86,x:.19,y:0,d:1,o:0}],[5.0,{s:.86,x:.19,y:0,d:1,o:1}],[5.66,{s:.86,x:.19,y:0,d:1,o:1}],[5.82,{s:.78,x:.19,y:0,d:1,o:0}]
+  [2.15,{s:1.25,x:.23,y:0,d:.4,o:1}],[3.0,{s:1.25,x:.23,y:0,d:.36,o:1}],[3.4,{s:1.7,x:.3,y:.05,d:.24,o:1}],[3.82,{s:1.7,x:.3,y:.05,d:.24,o:1}],[4.0,{s:1.9,x:.3,y:.05,d:.24,o:0}],
+  [4.85,{s:H.s,x:H.x,y:H.y,d:1,o:0}],[5.0,{s:H.s,x:H.x,y:H.y,d:1,o:1}],[5.41,{s:H.s,x:H.x,y:H.y,d:1,o:1}],[5.48,{s:G.s,x:G.x,y:G.y,d:1,o:1}],[5.66,{s:G.s,x:G.x,y:G.y,d:1,o:1}],[5.82,{s:G.s*.92,x:G.x,y:G.y,d:1,o:0}]
 ];}
 let kf=KF();
 function sampleKF(t){if(t<=kf[0][0])return kf[0][1];
@@ -882,13 +944,14 @@ function sampleKF(t){if(t<=kf[0][0])return kf[0][1];
   return kf[kf.length-1][1];}
 
 /* ---------- resize ---------- */
-function resize(){measure();kf=KF();
+function relayout(){measure();layout();kf=KF();}
+function resize(){relayout();
   dpr=Math.min(devicePixelRatio||1,1.75);renderer.setPixelRatio(dpr);renderer.setSize(vw,vh,false);
   eyeCam.aspect=vw/vh;eyeCam.updateProjectionMatrix();adCam.aspect=vw/vh;adCam.updateProjectionMatrix();
   fMat.uniforms.uRes.value.set(vw,vh);fMat.uniforms.uDpr.value=dpr;}
 addEventListener('resize',resize);resize();
-addEventListener('load',measure);
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+addEventListener('load',relayout);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(relayout);
 
 /* ---------- interaction: pupillary light reflex ---------- */
 let reflex=0,tCur=0;
@@ -913,6 +976,7 @@ function frame(now){
   // chapter indicator
   const ci=Math.min(CH.length-1,Math.floor(tRaw));
   if(ci!==lastCh){lastCh=ci;chNum.textContent=CH[ci][0]+' / 09';chName.textContent=CH[ci][1];}
+  chapterEl.style.opacity=tRaw<.55?0:1;
   chBar.style.transform=`scaleX(${clamp(tRaw/(secs.length-.4))})`;
 
   renderer.setViewport(0,0,vw,vh);renderer.clear();
@@ -921,7 +985,10 @@ function frame(now){
   const d=clamp((t-.3)/1.0);              // dive progress
   const ending=sstep(9.7,10.15,t);         // eye returns in contact
   const inDive=t<1.75;
-  let wE=inDive?1:(mobile?0:ending);
+  let endP=null;
+  if(!inDive&&ending>0){const g=cgridEl.getBoundingClientRect();const y0=72,y1=g.top-18;const r=Math.min(mobile?vw*.3:200,(y1-y0)*.46,vw*.28);
+    if(r>=46)endP={cx:mobile?vw/2:vw*.7,cy:(y0+y1)/2,r};}
+  let wE=inDive?1:(endP?ending:0);
   const reveal=sstep(.62,1,d)*1.15;
   if(inDive&&reveal>=1.14)wE=0;
   reflex*=reduced?.9:.965;
@@ -930,8 +997,8 @@ function frame(now){
   if(wE>0){
     let ex,ey,camZ,e;
     if(inDive){
-      const cz0=mobile?12.5:7.2;
-      ex=mobile?0:cz0*.2679*(vw/vh)*.5; ey=mobile?1.95:0;
+      const H=LAY.hero,cz0=vh/(2*TAN*H.r);
+      ex=(H.cx-vw/2)/H.r; ey=(vh/2-H.cy)/H.r;
       e=sstep(0,.55,d);
       const de=Math.pow(d,2.2);
       camZ=lerp(cz0,1.06,de);
@@ -940,7 +1007,7 @@ function frame(now){
       pupil=lerp(pupil,.46,sstep(.25,.85,d));
       eyeMat.uniforms.uFade.value=1;
     }else{
-      e=0;const cz=lerp(10.5,8.6,ending);ex=cz*.2679*(vw/vh)*.4;ey=.55;
+      e=0;const cz=vh/(2*TAN*endP.r);ex=(endP.cx-vw/2)/endP.r;ey=(vh/2-endP.cy)/endP.r;
       eye.position.set(ex,ey,0);eyeCam.position.set(0,0,cz);eyeCam.lookAt(0,0,0);
       eyeMat.uniforms.uFade.value=ending;
     }
@@ -984,36 +1051,51 @@ function frame(now){
   sayFact.style.opacity=(sstep(1.32,1.42,t)*(1-sstep(1.58,1.66,t))).toFixed(3);
   // anatomy labels
   const aOp=showF?sstep(1.32,1.42,t)*(1-sstep(1.58,1.66,t)):0;
+  {const L=[];
   [['disc',fundus.disc,1],['macula',fundus.macula,-1],['arcade',fundus.arcade,-1]].forEach(([k,f,dir])=>{
     const el=anat[k];const ao=(mobile&&k==='arcade')?0:aOp;el.style.opacity=ao.toFixed(3);
-    if(ao>0&&mobile&&k==='disc'){const [x,y]=toScr(f);const w=el.offsetWidth;
-      el.style.flexDirection='row-reverse';
-      el.style.transform=`translate(${Math.max(8,Math.min(vw-w-8,x-w+17)).toFixed(1)}px,${(y+fc.size*.07).toFixed(1)}px)`;}
-    else if(ao>0){const [x,y]=toScr(f);const w=el.offsetWidth;
-      let right=dir>0;let lx=right?x+fc.size*.035:x-w-fc.size*.02;
-      if(right&&lx+w>vw-8){right=false;lx=x-w-fc.size*.02;}
-      else if(!right&&lx<8){right=true;lx=x+fc.size*.035;}
-      lx=Math.max(8,Math.min(vw-w-8,lx));
-      el.style.flexDirection=right?'row':'row-reverse';
-      el.style.transform=`translate(${lx.toFixed(1)}px,${(y-10).toFixed(1)}px)`;}
-  });
+    if(ao<=0)return;
+    const [x,y]=toScr(f);const w=el.offsetWidth,h=el.offsetHeight;
+    let right=dir>0;let lx=right?x+fc.size*.035:x-w-fc.size*.02,ly=y-h/2;
+    if(right&&lx+w>vw-8){right=false;lx=x-w-fc.size*.02;}
+    else if(!right&&lx<8){right=true;lx=x+fc.size*.035;}
+    if(mobile&&k==='disc'){right=false;lx=x-w+17;ly=y-fc.size*.07-h;}
+    el.style.flexDirection=right?'row':'row-reverse';
+    L.push({el,x:lx,y:ly,w,h});});
+  settle(L).forEach(it=>it.el.style.transform=`translate(${it.x.toFixed(1)}px,${it.y.toFixed(1)}px)`);}
   // detections
   const scanP=sstep(5.06,5.4,t);
   const detVis=showF&&t>5.0&&t<5.8;
+  {const boxes=[],tags=[];const PLACE=['up','down','right'];
   fundus.lesions.forEach((l,i)=>{
     const el=dets[i];
     const on=detVis?sstep(l.y-.02,l.y+.04,scanP)*(1-sstep(5.66,5.74,t)):0;
     el.style.opacity=on.toFixed(3);
-    if(on>0){const [x,y]=toScr(l);const s=l.s*fc.size;
-      const b=el.firstElementChild,tg=el.lastElementChild;
-      b.style.width=b.style.height=s.toFixed(1)+'px';
-      el.style.transform=`translate(${(x-s/2).toFixed(1)}px,${(y-s/2).toFixed(1)}px)`;
-      tg.style.transform=`translate(0px,${(-24).toFixed(0)}px)`;}
-  });
+    if(on<=0)return;
+    const [x,y]=toScr(l);const sz=Math.max(14,l.s*fc.size);
+    const b=el.firstElementChild,tg=el.lastElementChild;
+    b.style.width=b.style.height=sz.toFixed(1)+'px';
+    const bx=x-sz/2,by=y-sz/2;el.style.transform=`translate(${bx.toFixed(1)}px,${by.toFixed(1)}px)`;
+    boxes.push({x:bx,y:by,w:sz,h:sz});
+    const tw=tg.offsetWidth,th=tg.offsetHeight;const pl=PLACE[i];
+    let tx=bx,ty=by-th-4;
+    if(pl==='down'){ty=by+sz+4;}
+    if(pl==='right'){tx=bx+sz+6;ty=by+sz/2-th/2;}
+    tags.push({el:tg,bx,by,x:tx,y:ty,w:tw,h:th});});
+  if(scanhud.style.opacity>.05){const r=scanhud.getBoundingClientRect();boxes.push({x:r.left,y:r.top,w:r.width,h:r.height});}
+  settle(tags,boxes).forEach(it=>it.el.style.transform=`translate(${(it.x-it.bx).toFixed(1)}px,${(it.y-it.by).toFixed(1)}px)`);}
   const hudOp=(t>4.98&&t<5.8)?sstep(4.98,5.06,t)*(1-sstep(5.66,5.74,t)):0;
   scanhud.style.opacity=hudOp.toFixed(3);
   if(hudOp>0){timer.textContent=(scanP*28.4).toFixed(1)+' с';scanstate.textContent=scanP>=1?'готово':'сканирование';}
-  result.style.opacity=(sstep(5.42,5.48,t)*(1-sstep(5.66,5.74,t))).toFixed(3);
+  const rOp=sstep(5.42,5.48,t)*(1-sstep(5.66,5.74,t));
+  result.style.opacity=rOp.toFixed(3);
+  if(rOp>0&&showF){const cw=resultEl.offsetWidth,ch=resultEl.offsetHeight;let rx,ry;
+    if(mobile){rx=LAY.gut;ry=vh-64-ch;}
+    else{rx=fc.x-cw/2;ry=fc.y+fc.size*.47+14;rx=Math.max(8,Math.min(vw-cw-8,rx));ry=Math.min(vh-ch-12,ry);}
+    resultEl.style.transform=`translate(${rx.toFixed(1)}px,${ry.toFixed(1)}px)`;}
+  if(mobile)howCopyEl.style.opacity=(1-sstep(5.4,5.46,t)*(1-sstep(5.66,5.74,t))).toFixed(3);else howCopyEl.style.opacity='';
+  heroFootEl.style.opacity=(1-sstep(.04,.2,tRaw)).toFixed(3);
+  navEl.classList.toggle('solid',scrollY>40);
 
   /* ===== adapter ===== */
   const wA=sstep(3.92,4.1,t)*(1-sstep(4.68,4.85,t));
@@ -1021,26 +1103,29 @@ function frame(now){
     const ex=sstep(4.12,4.5,t);
     for(const k in EXP){const o=EXP[k];parts[k].position.set(o[0]*ex,o[1]*ex,o[2]*ex);}
     M.ray.opacity=sstep(.55,1,ex)*.85;
-    const sc=mobile?.36:.9;
+    const sc=LAY.dev.sc;
     rig.scale.setScalar(sc);
-    rig.position.set(mobile?.1:1.6,mobile?1.25:-.35,0);
+    rig.position.set(LAY.dev.x,LAY.dev.y,0);
     rig.rotation.set(.38+(reduced?0:my*.06),-.62+(t-4)*.45+(reduced?0:mx*.12),0);
     renderer.clearDepth();renderer.render(adScene,adCam);
     if(wA<.998){fadeMat.opacity=1-wA;renderer.render(fadeScene,oCam);}
     rig.updateMatrixWorld();
     const lop=sstep(.6,.95,ex)*wA;
+    const PL=[];
     for(const k in ANCH){const el=partEls[k];const lk=(mobile&&(k==='screw'||k==='arm'||k==='ring'))?0:lop;el.style.opacity=lk.toFixed(3);
       if(lk>0){const a=ANCH[k],o=EXP[ANCH_EXP[k]];
         tmpV.set(a[0]+o[0]*ex,a[1]+o[1]*ex,a[2]+o[2]*ex);
         tmpV.applyMatrix4(asm.matrixWorld).project(adCam);
-        const x=(tmpV.x*.5+.5)*vw,y=(-tmpV.y*.5+.5)*vh;const w=el.offsetWidth;
+        const x=(tmpV.x*.5+.5)*vw,y=(-tmpV.y*.5+.5)*vh;const w=el.offsetWidth,h=el.offsetHeight;
         const flip=x+w+20>vw;el.style.flexDirection=flip?'row-reverse':'row';
-        el.style.transform=`translate(${(flip?x-w+3.5:x-3.5).toFixed(1)}px,${(y-9).toFixed(1)}px)`;}}
+        PL.push({el,x:flip?x-w+3.5:x-3.5,y:y-h/2,w,h});}}
+    settle(PL).forEach(it=>it.el.style.transform=`translate(${it.x.toFixed(1)}px,${it.y.toFixed(1)}px)`);
   }else{for(const k in partEls)partEls[k].style.opacity=0;}
 }
 requestAnimationFrame(frame);
 })();
 </script>
 
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
