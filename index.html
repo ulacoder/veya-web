@@ -14,6 +14,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
+<link rel="alternate" hreflang="ru" href="https://veyaai.vercel.app/">
+<link rel="alternate" hreflang="en" href="https://veyaai.vercel.app/en">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +63,7 @@ a{color:inherit}
 .nav ul a:hover{color:var(--paper)}
 .nav .cta{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;padding:9px 14px;border:1px solid var(--line);border-radius:999px;white-space:nowrap}
 .nav .cta:hover{border-color:var(--veya);color:var(--veya)}
+.nav button.cta{background:transparent;color:var(--paper);cursor:pointer;min-width:44px}
 .nav{transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
 .nav.solid{background:rgba(7,19,14,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom-color:var(--line)}
 @media (max-width:860px){.nav ul{display:none}}
@@ -324,39 +327,39 @@ footer p{max-width:46em}
     <b>VEYA</b>
   </a>
   <ul>
-    <li><a href="#problem">Проблема</a></li>
-    <li><a href="#device">Устройство</a></li>
-    <li><a href="#how">Как работает</a></li>
-    <li><a href="#model">Модель</a></li>
-    <li><a href="#price">Экономика</a></li>
+    <li><a data-i18n="t0" href="#problem">Проблема</a></li>
+    <li><a data-i18n="t1" href="#device">Устройство</a></li>
+    <li><a data-i18n="t2" href="#how">Как работает</a></li>
+    <li><a data-i18n="t3" href="#model">Модель</a></li>
+    <li><a data-i18n="t4" href="#price">Экономика</a></li>
   </ul>
-  <div style="display:flex;gap:8px"><a class="cta" href="https://veya-ai-screening.vercel.app/" target="_blank" rel="noopener">Платформа ↗</a><a class="cta" href="#contact">Пилот</a></div>
+  <div style="display:flex;gap:8px"><a data-i18n="t5" class="cta" href="https://veya-ai-screening.vercel.app/" target="_blank" rel="noopener">Платформа ↗</a><a data-i18n="t6" class="cta" href="#contact">Пилот</a><button class="cta lang" id="langBtn" type="button" lang="en" aria-label="Switch to English">EN</button></div>
 </nav>
 
 <div class="chapter" aria-hidden="true"><span class="num" id="chNum">00 / 09</span><span class="track"><i id="chBar"></i></span><span class="name" id="chName">Введение</span></div>
 
 <div id="overlay" aria-hidden="true">
-  <div class="anat" data-a="disc"><span>Диск зрительного нерва</span></div>
-  <div class="anat" data-a="macula"><span>Макула</span></div>
-  <div class="anat" data-a="arcade"><span>Сосудистая аркада</span></div>
-  <div class="det" data-d="0"><div class="box"></div><div class="tag">Микроаневризма · 0.91</div></div>
-  <div class="det" data-d="1"><div class="box"></div><div class="tag">Кровоизлияние · 0.87</div></div>
-  <div class="det" data-d="2"><div class="box"></div><div class="tag">Твёрдые экссудаты · 0.78</div></div>
-  <div class="part" data-p="phone"><span>iPhone · основная камера</span></div>
-  <div class="part" data-p="body"><span>Корпус-зажим</span></div>
-  <div class="part" data-p="screw"><span>Фиксирующий винт M8</span></div>
-  <div class="part" data-p="arm"><span>Направляющая · 220 мм</span></div>
-  <div class="part" data-p="ring"><span>Держатель линзы</span></div>
-  <div class="part" data-p="lens"><span>Линза 20 D</span></div>
-  <div class="scanhud" id="scanhud">Анализ ИИ<b id="timer">0.0 с</b><span id="scanstate">сканирование</span></div>
+  <div class="anat" data-a="disc"><span data-i18n="t7">Диск зрительного нерва</span></div>
+  <div class="anat" data-a="macula"><span data-i18n="t8">Макула</span></div>
+  <div class="anat" data-a="arcade"><span data-i18n="t9">Сосудистая аркада</span></div>
+  <div class="det" data-d="0"><div class="box"></div><div data-i18n="t10" class="tag">Микроаневризма · 0.91</div></div>
+  <div class="det" data-d="1"><div class="box"></div><div data-i18n="t11" class="tag">Кровоизлияние · 0.87</div></div>
+  <div class="det" data-d="2"><div class="box"></div><div data-i18n="t12" class="tag">Твёрдые экссудаты · 0.78</div></div>
+  <div class="part" data-p="phone"><span data-i18n="t13">iPhone · основная камера</span></div>
+  <div class="part" data-p="body"><span data-i18n="t14">Корпус-зажим</span></div>
+  <div class="part" data-p="screw"><span data-i18n="t15">Фиксирующий винт M8</span></div>
+  <div class="part" data-p="arm"><span data-i18n="t16">Направляющая · 220 мм</span></div>
+  <div class="part" data-p="ring"><span data-i18n="t17">Держатель линзы</span></div>
+  <div class="part" data-p="lens"><span data-i18n="t18">Линза 20 D</span></div>
+  <div class="scanhud" id="scanhud"><span data-i18n="t19">Анализ ИИ</span><b id="timer">0.0 с</b><span id="scanstate">сканирование</span></div>
   <div class="result" id="result">
-    <div class="hd"><span>Отчёт · OD</span><span>28.4 с</span></div>
-    <div class="dx">Диабетическая ретинопатия, <em>Grade 1</em></div>
-    <div class="prob hi"><span>Ретинопатия</span><span class="bar"><i style="width:93%"></i></span><span class="v">93%</span></div>
-    <div class="prob"><span>Глаукома</span><span class="bar"><i style="width:4%"></i></span><span class="v">4%</span></div>
-    <div class="prob"><span>Катаракта</span><span class="bar"><i style="width:2%"></i></span><span class="v">2%</span></div>
-    <div class="rec">Рекомендация: <b>плановое направление к офтальмологу</b></div>
-    <div class="note">Демонстрационный прогон прототипа. Решение принимает врач.</div>
+    <div class="hd"><span data-i18n="t20">Отчёт · OD</span><span data-i18n="t21">28.4 с</span></div>
+    <div data-i18n="t22" class="dx">Диабетическая ретинопатия, <em>Grade 1</em></div>
+    <div class="prob hi"><span data-i18n="t23">Ретинопатия</span><span class="bar"><i style="width:93%"></i></span><span class="v">93%</span></div>
+    <div class="prob"><span data-i18n="t24">Глаукома</span><span class="bar"><i style="width:4%"></i></span><span class="v">4%</span></div>
+    <div class="prob"><span data-i18n="t25">Катаракта</span><span class="bar"><i style="width:2%"></i></span><span class="v">2%</span></div>
+    <div data-i18n="t26" class="rec">Рекомендация: <b>плановое направление к офтальмологу</b></div>
+    <div data-i18n="t27" class="note">Демонстрационный прогон прототипа. Решение принимает врач.</div>
   </div>
 </div>
 
@@ -365,21 +368,21 @@ footer p{max-width:46em}
   <section class="sec hero" id="hero" data-sec>
     <div class="wrap hero-main">
       <div class="hero-copy shade" id="heroCopy">
-        <p class="eyebrow">ИИ-скрининг заболеваний глаз</p>
-        <h1><span>Смартфон.</span><span>Насадка.</span><span class="grad">30 секунд.</span></h1>
-        <p class="lead"><span class="lead-long">Veya находит признаки диабетической ретинопатии, глаукомы и катаракты по снимку глазного дна, сделанному смартфоном с насадкой себестоимостью $50–80. Без фундус-камеры за $10&nbsp;000 и без офтальмолога на этапе съёмки.</span><span class="lead-short">Признаки ретинопатии, глаукомы и катаракты по снимку глазного дна со смартфона. Насадка себестоимостью $50–80 вместо фундус-камеры за $10&nbsp;000.</span></p>
+        <p data-i18n="t28" class="eyebrow">ИИ-скрининг заболеваний глаз</p>
+        <h1 data-i18n="t29"><span>Смартфон.</span><span>Насадка.</span><span class="grad">30 секунд.</span></h1>
+        <p class="lead"><span data-i18n="t30" class="lead-long">Veya находит признаки диабетической ретинопатии, глаукомы и катаракты по снимку глазного дна, сделанному смартфоном с насадкой себестоимостью $50–80. Без фундус-камеры за $10&nbsp;000 и без офтальмолога на этапе съёмки.</span><span data-i18n="t31" class="lead-short">Признаки ретинопатии, глаукомы и катаракты по снимку глазного дна со смартфона. Насадка себестоимостью $50–80 вместо фундус-камеры за $10&nbsp;000.</span></p>
         <div class="btns">
-          <a class="btn solid" href="#device">Как это устроено</a>
-          <a class="btn" href="https://veya-ai-screening.vercel.app/" target="_blank" rel="noopener">Открыть платформу ↗</a>
+          <a data-i18n="t32" class="btn solid" href="#device">Как это устроено</a>
+          <a data-i18n="t33" class="btn" href="https://veya-ai-screening.vercel.app/" target="_blank" rel="noopener">Открыть платформу ↗</a>
         </div>
       </div>
     </div>
     <div class="wrap hero-foot" id="heroFoot">
-      <div class="scrollcue"><i></i>Листайте</div>
+      <div data-i18n="t34" class="scrollcue"><i></i>Листайте</div>
       <div class="hud" aria-hidden="true">
-        <span>OD · правый глаз</span>
-        <span>Зрачок <b id="pupilmm">3.9 мм</b></span>
-        <span class="hint">Кликните: зрачковый рефлекс</span>
+        <span data-i18n="t35">OD · правый глаз</span>
+        <span><span data-i18n="t36">Зрачок</span> <b id="pupilmm">3.9 мм</b></span>
+        <span data-i18n="t37" class="hint">Кликните: зрачковый рефлекс</span>
       </div>
     </div>
   </section>
@@ -389,10 +392,10 @@ footer p{max-width:46em}
     <div class="sticky">
       <div class="say intro shade" id="sayIntro">
         <p class="eyebrow">Fundus oculi</p>
-        <h2>Заходим через зрачок</h2>
+        <h2 data-i18n="t38">Заходим через зрачок</h2>
       </div>
       <div class="say fact shade" id="sayFact">
-        <h2>Глазное дно — единственное место в теле, где сосуды и нерв видно без разреза.</h2>
+        <h2 data-i18n="t39">Глазное дно — единственное место в теле, где сосуды и нерв видно без разреза.</h2>
       </div>
     </div>
   </section>
@@ -401,13 +404,13 @@ footer p{max-width:46em}
   <section class="sec pad" id="problem" data-sec>
     <div class="wrap split">
       <div class="shade">
-        <p class="eyebrow">01 · Проблема</p>
-        <h2>Слепота, которую можно было предотвратить</h2>
-        <p class="lead">Диабетическая ретинопатия и глаукома на ранних стадиях не болят и не мешают видеть. К врачу приходят, когда часть зрения уже потеряна навсегда.</p>
+        <p data-i18n="t40" class="eyebrow">01 · Проблема</p>
+        <h2 data-i18n="t41">Слепота, которую можно было предотвратить</h2>
+        <p data-i18n="t42" class="lead">Диабетическая ретинопатия и глаукома на ранних стадиях не болят и не мешают видеть. К врачу приходят, когда часть зрения уже потеряна навсегда.</p>
         <div class="stats">
-          <div class="stat"><div class="n">103<small>млн</small></div><p>взрослых с диабетической ретинопатией в 2020 году. К 2045 году станет 161 млн.</p></div>
-          <div class="stat"><div class="n">76<small>млн</small></div><p>человек с глаукомой в 2020 году. К 2040 году прогноз 111,8 млн.</p></div>
-          <div class="stat"><div class="n">95<small>%</small></div><p>на столько снижается риск тяжёлой потери зрения при диабетической ретинопатии, если выявить её рано и вовремя лечить.</p></div>
+          <div class="stat"><div data-i18n="t43" class="n">103<small>млн</small></div><p data-i18n="t45">взрослых с диабетической ретинопатией в 2020 году. К 2045 году станет 161 млн.</p></div>
+          <div class="stat"><div data-i18n="t44" class="n">76<small>млн</small></div><p data-i18n="t46">человек с глаукомой в 2020 году. К 2040 году прогноз 111,8 млн.</p></div>
+          <div class="stat"><div class="n">95<small>%</small></div><p data-i18n="t47">на столько снижается риск тяжёлой потери зрения при диабетической ретинопатии, если выявить её рано и вовремя лечить.</p></div>
         </div>
         <p class="src">Teo et al., Ophthalmology, 2021 · Tham et al., Ophthalmology, 2014 · National Eye Institute (NIH)</p>
       </div>
@@ -419,16 +422,16 @@ footer p{max-width:46em}
   <section class="sec pad" id="why" data-sec>
     <div class="wrap split">
       <div class="shade">
-        <p class="eyebrow">02 · Почему это не решено</p>
-        <h2>ИИ уже умеет читать сетчатку. Ему нечем смотреть.</h2>
-        <p class="lead">Система EyeArt, одобренная FDA, находит ретинопатию с чувствительностью 95%: метаанализ 17 исследований, больше 162&nbsp;000 обследований. Но работает она только с профессиональной фундус-камерой.</p>
+        <p data-i18n="t48" class="eyebrow">02 · Почему это не решено</p>
+        <h2 data-i18n="t49">ИИ уже умеет читать сетчатку. Ему нечем смотреть.</h2>
+        <p data-i18n="t50" class="lead">Система EyeArt, одобренная FDA, находит ретинопатию с чувствительностью 95%: метаанализ 17 исследований, больше 162&nbsp;000 обследований. Но работает она только с профессиональной фундус-камерой.</p>
         <div class="rows">
-          <div class="row"><div class="k">$10–14 тыс.</div><p>стоит фундус-камера. Большинству амбулаторий это не по карману.</p></div>
-          <div class="row"><div class="k">Города</div><p>Офтальмологи сосредоточены в крупных центрах.</p></div>
-          <div class="row"><div class="k">Сёла и вахты</div><p>В районах и на производствах нет инфраструктуры для скрининга.</p></div>
-          <div class="row"><div class="k">Направление</div><p>Пациент получает бумагу к специалисту и не доходит до приёма.</p></div>
+          <div class="row"><div data-i18n="t51" class="k">$10–14 тыс.</div><p data-i18n="t52">стоит фундус-камера. Большинству амбулаторий это не по карману.</p></div>
+          <div class="row"><div data-i18n="t53" class="k">Города</div><p data-i18n="t54">Офтальмологи сосредоточены в крупных центрах.</p></div>
+          <div class="row"><div data-i18n="t55" class="k">Сёла и вахты</div><p data-i18n="t56">В районах и на производствах нет инфраструктуры для скрининга.</p></div>
+          <div class="row"><div data-i18n="t57" class="k">Направление</div><p data-i18n="t58">Пациент получает бумагу к специалисту и не доходит до приёма.</p></div>
         </div>
-        <blockquote>«Многие пациенты не доходят до офтальмолога. Мы теряем их на этапе направления.»<cite>Терапевт · интервью Veya</cite></blockquote>
+        <blockquote data-i18n="t59">«Многие пациенты не доходят до офтальмолога. Мы теряем их на этапе направления.»<cite>Терапевт · интервью Veya</cite></blockquote>
       </div>
       <div></div>
     </div>
@@ -439,15 +442,15 @@ footer p{max-width:46em}
     <div class="sticky">
       <div class="wrap">
         <div class="dev-copy shade">
-          <p class="eyebrow">03 · Устройство</p>
-          <h2>Фундус-камера, которая надевается на iPhone</h2>
-          <p class="lead">3D-печатный корпус и конденсорная линза 20&nbsp;D фокусируют камеру смартфона на сетчатке через зрачок. Врач держит телефон одной рукой и видит глазное дно на экране.</p>
+          <p data-i18n="t60" class="eyebrow">03 · Устройство</p>
+          <h2 data-i18n="t61">Фундус-камера, которая надевается на iPhone</h2>
+          <p data-i18n="t62" class="lead">3D-печатный корпус и конденсорная линза 20&nbsp;D фокусируют камеру смартфона на сетчатке через зрачок. Врач держит телефон одной рукой и видит глазное дно на экране.</p>
           <dl class="spec">
-            <dt class="opt">Оптика</dt><dd class="opt">линза 20 D, Ø до 55 мм</dd>
-            <dt class="opt">Детали</dt><dd class="opt">7 деталей, 3D-печать</dd>
-            <dt class="opt">Крепёж</dt><dd class="opt">7 болтов M3, винт M8</dd>
-            <dt>Себестоимость</dt><dd><b>$50–80</b></dd>
-            <dt>Для клиники</dt><dd>$350–500 за систему</dd>
+            <dt data-i18n="t63" class="opt">Оптика</dt><dd data-i18n="t64" class="opt">линза 20 D, Ø до 55 мм</dd>
+            <dt data-i18n="t65" class="opt">Детали</dt><dd data-i18n="t66" class="opt">7 деталей, 3D-печать</dd>
+            <dt data-i18n="t67" class="opt">Крепёж</dt><dd data-i18n="t68" class="opt">7 болтов M3, винт M8</dd>
+            <dt data-i18n="t69">Себестоимость</dt><dd><b>$50–80</b></dd>
+            <dt data-i18n="t70">Для клиники</dt><dd data-i18n="t71">$350–500 за систему</dd>
           </dl>
         </div>
       </div>
@@ -459,14 +462,14 @@ footer p{max-width:46em}
     <div class="sticky">
       <div class="wrap">
         <div class="how-copy shade">
-          <p class="eyebrow">04 · Как это работает</p>
-          <h2>30 секунд от снимка до решения врача</h2>
+          <p data-i18n="t72" class="eyebrow">04 · Как это работает</p>
+          <h2 data-i18n="t73">30 секунд от снимка до решения врача</h2>
           <ol class="steps">
-            <li><span class="i">01</span><div><h3>Съёмка</h3><p>Насадка на iPhone, снимок глазного дна. Специалист на этом этапе не нужен.</p></div></li>
-            <li><span class="i">02</span><div><h3>Анализ</h3><p>Модель ищет микроаневризмы, кровоизлияния и изменения диска зрительного нерва.</p></div></li>
-            <li><span class="i">03</span><div><h3>Отчёт</h3><p>Риск по каждому заболеванию, рекомендация и PDF для медкарты. Дальше решает врач.</p></div></li>
+            <li><span class="i">01</span><div><h3 data-i18n="t74">Съёмка</h3><p data-i18n="t75">Насадка на iPhone, снимок глазного дна. Специалист на этом этапе не нужен.</p></div></li>
+            <li><span class="i">02</span><div><h3 data-i18n="t76">Анализ</h3><p data-i18n="t77">Модель ищет микроаневризмы, кровоизлияния и изменения диска зрительного нерва.</p></div></li>
+            <li><span class="i">03</span><div><h3 data-i18n="t78">Отчёт</h3><p data-i18n="t79">Риск по каждому заболеванию, рекомендация и PDF для медкарты. Дальше решает врач.</p></div></li>
           </ol>
-          <div class="btns" style="margin-top:22px"><a class="btn" href="https://veya-ai-screening.vercel.app/" target="_blank" rel="noopener">Платформа VEYA AI ↗</a></div>
+          <div class="btns" style="margin-top:22px"><a data-i18n="t80" class="btn" href="https://veya-ai-screening.vercel.app/" target="_blank" rel="noopener">Платформа VEYA AI ↗</a></div>
         </div>
       </div>
     </div>
@@ -475,45 +478,45 @@ footer p{max-width:46em}
   <!-- 6 -->
   <section class="sec pad" id="model" data-sec>
     <div class="wrap">
-      <p class="eyebrow">05 · Модель</p>
-      <h2>Что модель умеет сегодня</h2>
-      <p class="lead">Прототип обучен на открытых размеченных датасетах. Ниже метрики по каждому классу на тестовой выборке из 1&nbsp;800 снимков, а не одна общая цифра.</p>
+      <p data-i18n="t81" class="eyebrow">05 · Модель</p>
+      <h2 data-i18n="t82">Что модель умеет сегодня</h2>
+      <p data-i18n="t83" class="lead">Прототип обучен на открытых размеченных датасетах. Ниже метрики по каждому классу на тестовой выборке из 1&nbsp;800 снимков, а не одна общая цифра.</p>
       <div class="facts">
-        <div class="fact"><div class="n">EfficientNet-B0</div><p>архитектура, дообучение с ImageNet</p></div>
-        <div class="fact"><div class="n">12 000</div><p>снимков из IDRiD и ODIR-5K</p></div>
-        <div class="fact"><div class="n">70 / 15 / 15</div><p>разбиение по пациентам, без утечки</p></div>
-        <div class="fact"><div class="n grad">84%</div><p>общая точность на тесте</p></div>
+        <div class="fact"><div class="n">EfficientNet-B0</div><p data-i18n="t84">архитектура, дообучение с ImageNet</p></div>
+        <div class="fact"><div data-i18n="t85" class="n">12 000</div><p data-i18n="t86">снимков из IDRiD и ODIR-5K</p></div>
+        <div class="fact"><div class="n">70 / 15 / 15</div><p data-i18n="t87">разбиение по пациентам, без утечки</p></div>
+        <div class="fact"><div class="n grad">84%</div><p data-i18n="t88">общая точность на тесте</p></div>
       </div>
       <div class="model-grid">
         <div class="tbl-wrap">
           <table class="metrics" id="metrics">
-            <thead><tr><th>Класс</th><th>Чувствительность</th><th>Специфичность</th><th>F1</th></tr></thead>
+            <thead><tr><th data-i18n="t89">Класс</th><th data-i18n="t90">Чувствительность</th><th data-i18n="t91">Специфичность</th><th>F1</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
         <div>
-          <div class="cm-title">Матрица ошибок · строки: факт, столбцы: прогноз</div>
+          <div data-i18n="t92" class="cm-title">Матрица ошибок · строки: факт, столбцы: прогноз</div>
           <div class="cm" id="cm"></div>
-          <div class="cm-axis"><span>n = 1 800</span><span>зелёный: верно · оранжевый: ошибка</span></div>
+          <div class="cm-axis"><span data-i18n="t93">n = 1 800</span><span data-i18n="t94">зелёный: верно · оранжевый: ошибка</span></div>
         </div>
       </div>
-      <div class="caveat"><span class="k">Важно</span><p>84% получено на тестовой выборке публичных датасетов. Это не клиническая точность. Следующий шаг: снимки с адаптера Veya и проспективная валидация в клиниках во время пилота.</p></div>
+      <div class="caveat"><span data-i18n="t95" class="k">Важно</span><p data-i18n="t96">84% получено на тестовой выборке публичных датасетов. Это не клиническая точность. Следующий шаг: снимки с адаптера Veya и проспективная валидация в клиниках во время пилота.</p></div>
     </div>
   </section>
 
   <!-- 7 -->
   <section class="sec pad" id="price" data-sec>
     <div class="wrap">
-      <p class="eyebrow">06 · Экономика</p>
-      <h2>В <span class="grad">100+ раз</span> дешевле фундус-камеры</h2>
+      <p data-i18n="t97" class="eyebrow">06 · Экономика</p>
+      <h2 data-i18n="t98">В <span class="grad">100+ раз</span> дешевле фундус-камеры</h2>
       <div class="compare">
-        <div class="cmp old"><div class="lbl"><span class="muted">Профессиональная фундус-камера</span><b>$10 000–14 000</b></div><div class="rail"><i></i></div></div>
-        <div class="cmp new"><div class="lbl"><span>Насадка Veya, себестоимость</span><b>$50–80</b></div><div class="rail"><i></i></div></div>
+        <div class="cmp old"><div class="lbl"><span data-i18n="t99" class="muted">Профессиональная фундус-камера</span><b data-i18n="t100">$10 000–14 000</b></div><div class="rail"><i></i></div></div>
+        <div class="cmp new"><div class="lbl"><span data-i18n="t101">Насадка Veya, себестоимость</span><b>$50–80</b></div><div class="rail"><i></i></div></div>
       </div>
       <div class="streams">
-        <div class="stream"><div class="t">Устройство</div><div class="n">$350–500</div><p>за систему. От 50 штук: $350. Валовая маржа больше 77%.</p></div>
-        <div class="stream"><div class="t">Подписка</div><div class="n">$50–100<span class="muted" style="font-size:.5em"> / мес</span></div><p>Облачный ИИ-анализ, история пациентов, PDF-отчёты.</p></div>
-        <div class="stream"><div class="t">Госпрограммы</div><div class="n">B2G</div><p>Пилоты и госзакупки через Минздрав и региональные управления.</p></div>
+        <div class="stream"><div data-i18n="t1" class="t">Устройство</div><div class="n">$350–500</div><p data-i18n="t102">за систему. От 50 штук: $350. Валовая маржа больше 77%.</p></div>
+        <div class="stream"><div data-i18n="t103" class="t">Подписка</div><div data-i18n="t104" class="n">$50–100<span class="muted" style="font-size:.5em"> / мес</span></div><p data-i18n="t105">Облачный ИИ-анализ, история пациентов, PDF-отчёты.</p></div>
+        <div class="stream"><div data-i18n="t106" class="t">Госпрограммы</div><div class="n">B2G</div><p data-i18n="t107">Пилоты и госзакупки через Минздрав и региональные управления.</p></div>
       </div>
     </div>
   </section>
@@ -521,12 +524,12 @@ footer p{max-width:46em}
   <!-- 8 -->
   <section class="sec pad" id="who" data-sec>
     <div class="wrap">
-      <p class="eyebrow">07 · Для кого</p>
-      <h2>Там, где нет офтальмолога</h2>
+      <p data-i18n="t108" class="eyebrow">07 · Для кого</p>
+      <h2 data-i18n="t109">Там, где нет офтальмолога</h2>
       <div class="segs">
-        <article class="seg"><span class="tag">B2B · клиники</span><div class="n">3 300+</div><h3>Амбулатории и ПМСП</h3><p>Первичные медорганизации Казахстана. Быстрая сортировка пациентов до направления.</p><p class="pain">Пациенты теряются между направлением и визитом.</p></article>
-        <article class="seg"><span class="tag">B2B · корпорации</span><div class="n">≈2 600</div><h3>Корпоративная медицина</h3><p>Нефтегаз, добыча, производство. Скрининг прямо на медосмотре, без поездки в город.</p><p class="pain">Ответственность за здоровье работников.</p></article>
-        <article class="seg"><span class="tag">B2G · государство</span><div class="n">РК</div><h3>Госпрограммы</h3><p>Минздрав, управления здравоохранения, сельская медицина, школьные проверки зрения.</p><p class="pain">Нет доступной инфраструктуры для скрининга.</p></article>
+        <article class="seg"><span data-i18n="t110" class="tag">B2B · клиники</span><div class="n">3 300+</div><h3 data-i18n="t111">Амбулатории и ПМСП</h3><p data-i18n="t112">Первичные медорганизации Казахстана. Быстрая сортировка пациентов до направления.</p><p data-i18n="t113" class="pain">Пациенты теряются между направлением и визитом.</p></article>
+        <article class="seg"><span data-i18n="t114" class="tag">B2B · корпорации</span><div class="n">≈2 600</div><h3 data-i18n="t115">Корпоративная медицина</h3><p data-i18n="t116">Нефтегаз, добыча, производство. Скрининг прямо на медосмотре, без поездки в город.</p><p data-i18n="t117" class="pain">Ответственность за здоровье работников.</p></article>
+        <article class="seg"><span data-i18n="t118" class="tag">B2G · государство</span><div data-i18n="t119" class="n">РК</div><h3 data-i18n="t106">Госпрограммы</h3><p data-i18n="t120">Минздрав, управления здравоохранения, сельская медицина, школьные проверки зрения.</p><p data-i18n="t121" class="pain">Нет доступной инфраструктуры для скрининга.</p></article>
       </div>
     </div>
   </section>
@@ -534,15 +537,15 @@ footer p{max-width:46em}
   <!-- 9 -->
   <section class="sec pad" id="road" data-sec>
     <div class="wrap">
-      <p class="eyebrow">08 · Дорожная карта</p>
-      <h2>Где мы сейчас</h2>
+      <p data-i18n="t122" class="eyebrow">08 · Дорожная карта</p>
+      <h2 data-i18n="t123">Где мы сейчас</h2>
       <div class="road">
-        <div class="ms done"><div class="q">Q3 2026</div><h3>Запуск MVP</h3><span class="st">готово</span></div>
-        <div class="ms now"><div class="q">Q4 2026</div><h3>Пилот с 3–5 клиниками</h3><span class="st">сейчас</span></div>
-        <div class="ms"><div class="q">Q2 2027</div><h3>Первые B2B-контракты</h3><span class="st">план</span></div>
-        <div class="ms"><div class="q">Q4 2027</div><h3>100+ проданных устройств</h3><span class="st">план</span></div>
+        <div class="ms done"><div class="q">Q3 2026</div><h3 data-i18n="t124">Запуск MVP</h3><span data-i18n="t125" class="st">готово</span></div>
+        <div class="ms now"><div class="q">Q4 2026</div><h3 data-i18n="t126">Пилот с 3–5 клиниками</h3><span data-i18n="t127" class="st">сейчас</span></div>
+        <div class="ms"><div class="q">Q2 2027</div><h3 data-i18n="t128">Первые B2B-контракты</h3><span data-i18n="t129" class="st">план</span></div>
+        <div class="ms"><div class="q">Q4 2027</div><h3 data-i18n="t130">100+ проданных устройств</h3><span data-i18n="t129" class="st">план</span></div>
       </div>
-      <p class="incub">Инкубация: <b>StartUp Orda</b> · <b>Aqmola Hub</b></p>
+      <p data-i18n="t131" class="incub">Инкубация: <b>StartUp Orda</b> · <b>Aqmola Hub</b></p>
     </div>
   </section>
 
@@ -550,15 +553,15 @@ footer p{max-width:46em}
   <section class="sec contact" id="contact" data-sec>
     <div class="wrap cgrid">
       <div class="shade">
-        <p class="eyebrow">09 · Пилот</p>
-        <h2>Ищем клиники для пилота</h2>
-        <p class="lead">Q4 2026: 3–5 клиник и корпоративных медслужб в Казахстане. От нас устройство, платформа и обучение персонала. От вас обратная связь.</p>
+        <p data-i18n="t132" class="eyebrow">09 · Пилот</p>
+        <h2 data-i18n="t133">Ищем клиники для пилота</h2>
+        <p data-i18n="t134" class="lead">Q4 2026: 3–5 клиник и корпоративных медслужб в Казахстане. От нас устройство, платформа и обучение персонала. От вас обратная связь.</p>
       </div>
       <div class="card">
-        <div style="display:flex;align-items:center;gap:12px"><img src="/logo.png" width="44" height="44" alt="Логотип Veya" style="display:block"><span class="k">Нуртас Улагат · основатель</span></div>
-        <div class="mail"><code id="email">nurtasulagat@gmail.com</code><button class="copy" id="copyBtn" type="button">Копировать</button></div>
+        <div style="display:flex;align-items:center;gap:12px"><img src="/logo.png" width="44" height="44" alt="Логотип Veya" style="display:block"><span data-i18n="t135" class="k">Нуртас Улагат · основатель</span></div>
+        <div class="mail"><code id="email">nurtasulagat@gmail.com</code><button data-i18n="t136" class="copy" id="copyBtn" type="button">Копировать</button></div>
         <div class="links">
-          <a class="btn solid" href="https://veya-ai-screening.vercel.app/" target="_blank" rel="noopener">Открыть платформу ↗</a>
+          <a data-i18n="t33" class="btn solid" href="https://veya-ai-screening.vercel.app/" target="_blank" rel="noopener">Открыть платформу ↗</a>
           <a class="btn" href="https://github.com/ulacoder" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
       </div>
@@ -568,8 +571,8 @@ footer p{max-width:46em}
 
 <footer>
   <div class="wrap">
-    <p>Veya помогает врачу при скрининге и не ставит диагноз. Окончательное решение всегда за специалистом.</p>
-    <span class="mono">© 2026 Veya · Кокшетау</span>
+    <p data-i18n="t137">Veya помогает врачу при скрининге и не ставит диагноз. Окончательное решение всегда за специалистом.</p>
+    <span data-i18n="t138" class="mono">© 2026 Veya · Кокшетау</span>
   </div>
 </footer>
 
@@ -583,29 +586,56 @@ const clamp = (v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 const lerp = (a,b,t)=>a+(b-a)*t;
 const sstep = (a,b,v)=>{const t=clamp((v-a)/(b-a));return t*t*(3-2*t);};
 
-/* ---------- static data blocks ---------- */
-const MET=[["Норма",91,92,90],["Диабетическая ретинопатия",82,93,84],["Глаукома",78,96,77],["Катаракта",71,97,70]];
-const tb=$('#metrics tbody');
-MET.forEach(r=>{const tr=document.createElement('tr');
-  tr.innerHTML=`<td class="cls">${r[0]}</td><td><div class="mbar">${r[1]}%<span><i style="width:${r[1]}%"></i></span></div></td><td><div class="mbar">${r[2]}%<span><i style="width:${r[2]}%"></i></span></div></td><td class="mono" style="text-transform:none">${r[3]}%</td>`;
-  tb.appendChild(tr);});
+/* ---------- language ---------- */
+const EN={"t0": "Problem", "t1": "Device", "t2": "How it works", "t3": "Model", "t4": "Economics", "t5": "Platform ↗", "t6": "Pilot", "t7": "Optic disc", "t8": "Macula", "t9": "Vascular arcade", "t10": "Microaneurysm · 0.91", "t11": "Haemorrhage · 0.87", "t12": "Hard exudates · 0.78", "t13": "iPhone · main camera", "t14": "Clamp housing", "t15": "M8 locking screw", "t16": "Guide rail · 220 mm", "t17": "Lens holder", "t18": "20 D lens", "t19": "AI analysis", "t20": "Report · OD", "t21": "28.4 s", "t22": "Diabetic retinopathy, <em>Grade 1</em>", "t23": "Retinopathy", "t24": "Glaucoma", "t25": "Cataract", "t26": "Recommendation: <b>routine referral to an ophthalmologist</b>", "t27": "Prototype demo run. The doctor makes the decision.", "t28": "AI screening for eye disease", "t29": "<span>Smartphone.</span><span>Adapter.</span><span class=\"grad\">30 seconds.</span>", "t30": "Veya detects signs of diabetic retinopathy, glaucoma and cataract in a fundus image taken with a smartphone and a clip-on adapter that costs $50–80 to make. No $10,000 fundus camera, and no ophthalmologist needed at the point of capture.", "t31": "Signs of retinopathy, glaucoma and cataract from a smartphone fundus image. A $50–80 adapter instead of a $10,000 fundus camera.", "t32": "See the device", "t33": "Open the platform ↗", "t34": "<i></i>Scroll", "t35": "OD · right eye", "t36": "Pupil", "t37": "Click: pupillary reflex", "t38": "Going in through the pupil", "t39": "The fundus is the only place in the body where you can see blood vessels and a nerve without a single incision.", "t40": "01 · Problem", "t41": "Blindness that could have been prevented", "t42": "Early diabetic retinopathy and glaucoma cause no pain and no change in vision. People see a doctor only when part of their sight is already gone for good.", "t43": "103<small>M</small>", "t44": "76<small>M</small>", "t45": "adults were living with diabetic retinopathy in 2020. By 2045 the figure is projected to reach 161 million.", "t46": "people had glaucoma in 2020, with 111.8 million projected by 2040.", "t47": "lower risk of severe vision loss from diabetic retinopathy when it is caught early and treated in time.", "t48": "02 · Why it isn’t solved", "t49": "AI can already read the retina. It has nothing to look through.", "t50": "The FDA-cleared EyeArt system detects retinopathy with 95% sensitivity, according to a meta-analysis of 17 studies and more than 162,000 exams. But it only works with a professional fundus camera.", "t51": "$10–14k", "t52": "is the price of a fundus camera. Most outpatient clinics can’t afford one.", "t53": "Cities", "t54": "Ophthalmologists are concentrated in major cities.", "t55": "Rural &amp; remote sites", "t56": "Rural districts and industrial sites have no screening infrastructure.", "t57": "Referral", "t58": "The patient gets a referral slip and never reaches the specialist.", "t59": "“Many patients never make it to an ophthalmologist. We lose them at the referral stage.”<cite>General practitioner · Veya interview</cite>", "t60": "03 · Device", "t61": "A fundus camera that clips onto an iPhone", "t62": "A 3D-printed housing and a 20&nbsp;D condensing lens focus the phone camera on the retina through the pupil. The clinician holds the phone in one hand and sees the fundus on screen.", "t63": "Optics", "t64": "20 D lens, Ø up to 55 mm", "t65": "Parts", "t66": "7 parts, 3D-printed", "t67": "Fasteners", "t68": "7 × M3 bolts, M8 screw", "t69": "Unit cost", "t70": "Clinic price", "t71": "$350–500 per system", "t72": "04 · How it works", "t73": "30 seconds from image to clinical decision", "t74": "Capture", "t75": "Clip the adapter onto an iPhone and take a fundus image. No specialist is needed at this step.", "t76": "Analysis", "t77": "The model looks for microaneurysms, haemorrhages and changes in the optic disc.", "t78": "Report", "t79": "Risk for each disease, a recommendation and a PDF for the medical record. The doctor decides what happens next.", "t80": "VEYA AI platform ↗", "t81": "05 · Model", "t82": "What the model can do today", "t83": "The prototype is trained on open labelled datasets. Below are per-class metrics on a held-out test set of 1,800 images, not just one headline number.", "t84": "architecture, fine-tuned from ImageNet", "t85": "12,000", "t86": "images from IDRiD and ODIR-5K", "t87": "patient-level split, no leakage", "t88": "overall test accuracy", "t89": "Class", "t90": "Sensitivity", "t91": "Specificity", "t92": "Confusion matrix · rows: actual, columns: predicted", "t93": "n = 1,800", "t94": "green: correct · orange: error", "t95": "Important", "t96": "The 84% was measured on a test split of public datasets. It is not clinical accuracy. Next step: images from the Veya adapter and prospective validation in clinics during the pilot.", "t97": "06 · Economics", "t98": "<span class=\"grad\">100×</span> cheaper than a fundus camera", "t99": "Professional fundus camera", "t100": "$10,000–14,000", "t101": "Veya adapter, unit cost", "t102": "per system, or $350 each for 50+ units. Gross margin above 77%.", "t103": "Subscription", "t104": "$50–100<span class=\"muted\" style=\"font-size:.5em\"> / mo</span>", "t105": "Cloud AI analysis, patient history, PDF reports.", "t106": "Public programmes", "t107": "Pilots and public procurement through the Ministry of Health and regional health departments.", "t108": "07 · Who it’s for", "t109": "Where there is no ophthalmologist", "t110": "B2B · clinics", "t111": "Outpatient &amp; primary care", "t112": "Primary care providers in Kazakhstan. Fast patient triage before referral.", "t113": "Patients get lost between referral and visit.", "t114": "B2B · corporates", "t115": "Occupational health", "t116": "Oil &amp; gas, mining, manufacturing. Screening during routine medicals, with no trip to the city.", "t117": "Duty of care for employee health.", "t118": "B2G · government", "t119": "KZ", "t120": "Ministry of Health, regional health departments, rural medicine, school eye checks.", "t121": "No affordable screening infrastructure.", "t122": "08 · Roadmap", "t123": "Where we are now", "t124": "MVP launched", "t125": "done", "t126": "Pilot with 3–5 clinics", "t127": "now", "t128": "First B2B contracts", "t129": "planned", "t130": "100+ devices sold", "t131": "Incubation: <b>StartUp Orda</b> · <b>Aqmola Hub</b>", "t132": "09 · Pilot", "t133": "Looking for pilot clinics", "t134": "Q4 2026: 3–5 clinics and occupational health services in Kazakhstan. We provide the device, the platform and staff training. You give us feedback.", "t135": "Ulagat Nurtas · Founder", "t136": "Copy", "t137": "Veya supports clinicians in screening and does not make a diagnosis. The final decision always rests with a specialist.", "t138": "© 2026 Veya · Kokshetau, Kazakhstan"};
+const STR={
+  ru:{met:["Норма","Диабетическая ретинопатия","Глаукома","Катаракта"],cl:["Норма","ДР","Глаукома","Катар."],
+      ch:["Введение","Введение","Проблема","Почему не решено","Устройство","Как работает","Модель","Экономика","Для кого","Дорожная карта","Пилот"],
+      copy:"Копировать",copied:"Скопировано",selected:"Выделено",mm:" мм",s:" с",done:"готово",scan:"сканирование",
+      btn:"EN",btnLang:"en",btnLabel:"Switch to English",nav:"Основная навигация",home:"Veya, в начало",logo:"Логотип Veya",
+      desc:"Veya — ИИ-скрининг диабетической ретинопатии, глаукомы и катаракты по снимку глазного дна со смартфона и 3D-печатной насадки."},
+  en:{met:["Normal","Diabetic retinopathy","Glaucoma","Cataract"],cl:["Normal","DR","Glaucoma","Cataract"],
+      ch:["Intro","Intro","Problem","Why unsolved","Device","How it works","Model","Economics","Who it’s for","Roadmap","Pilot"],
+      copy:"Copy",copied:"Copied",selected:"Selected",mm:" mm",s:" s",done:"done",scan:"scanning",
+      btn:"RU",btnLang:"ru",btnLabel:"Переключить на русский",nav:"Main navigation",home:"Veya, back to top",logo:"Veya logo",
+      desc:"Veya — AI screening for diabetic retinopathy, glaucoma and cataract from a fundus image taken with a smartphone and a 3D-printed adapter."}
+};
+const i18nEls=[...document.querySelectorAll('[data-i18n]')];
+i18nEls.forEach(el=>{el.dataset.ru=el.innerHTML;});
+let lang='ru',L=STR.ru;
+const pickLang=()=>{
+  const q=new URLSearchParams(location.search).get('lang');
+  if(q==='en'||q==='ru')return q;
+  if(/^\/en\/?$/.test(location.pathname))return 'en';
+  try{const v=localStorage.getItem('veya-lang');if(v==='en'||v==='ru')return v;}catch(e){}
+  const nl=(navigator.languages&&navigator.languages[0])||navigator.language||'ru';
+  return /^(ru|kk|ky|uk|be|uz|tg)\b/i.test(nl)?'ru':'en';
+};
+
+const MET=[[91,92,90],[82,93,84],[78,96,77],[71,97,70]];
 const CM=[[682,40,18,10],[50,517,40,23],[20,25,211,14],[15,18,10,107]];
-const CL=["Норма","ДР","Глаукома","Катар."];
-const cm=$('#cm');
-cm.insertAdjacentHTML('beforeend','<div class="h"></div>'+CL.map(c=>`<div class="h">${c}</div>`).join(''));
-CM.forEach((row,i)=>{const tot=row.reduce((a,b)=>a+b,0);
-  cm.insertAdjacentHTML('beforeend',`<div class="h rh">${CL[i]}</div>`);
-  row.forEach((v,j)=>{const f=v/tot;const diag=i===j;
-    const a=diag?(0.18+f*0.8):Math.min(0.75,0.08+f*4);
-    const bg=diag?`rgba(60,207,122,${a.toFixed(3)})`:`rgba(240,132,64,${a.toFixed(3)})`;
-    const fg=diag&&f>.5?'#07130e':'#ecf2e8';
-    cm.insertAdjacentHTML('beforeend',`<div style="background:${bg};color:${fg}" title="${CL[i]} → ${CL[j]}: ${v}">${v}</div>`);});});
+const tb=$('#metrics tbody'),cm=$('#cm');
+function renderModel(){
+  tb.innerHTML='';
+  MET.forEach((r,i)=>{const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="cls">${L.met[i]}</td><td><div class="mbar">${r[0]}%<span><i style="width:${r[0]}%"></i></span></div></td><td><div class="mbar">${r[1]}%<span><i style="width:${r[1]}%"></i></span></div></td><td class="mono" style="text-transform:none">${r[2]}%</td>`;
+    tb.appendChild(tr);});
+  const CL=L.cl;cm.innerHTML='';
+  cm.insertAdjacentHTML('beforeend','<div class="h"></div>'+CL.map(c=>`<div class="h">${c}</div>`).join(''));
+  CM.forEach((row,i)=>{const tot=row.reduce((a,b)=>a+b,0);
+    cm.insertAdjacentHTML('beforeend',`<div class="h rh">${CL[i]}</div>`);
+    row.forEach((v,j)=>{const f=v/tot;const diag=i===j;
+      const a=diag?(0.18+f*0.8):Math.min(0.75,0.08+f*4);
+      const bg=diag?`rgba(60,207,122,${a.toFixed(3)})`:`rgba(240,132,64,${a.toFixed(3)})`;
+      const fg=diag&&f>.5?'#07130e':'#ecf2e8';
+      cm.insertAdjacentHTML('beforeend',`<div style="background:${bg};color:${fg}" title="${CL[i]} → ${CL[j]}: ${v}">${v}</div>`);});});
+}
 
 /* copy email */
 $('#copyBtn').addEventListener('click',()=>{
   const btn=$('#copyBtn'), txt=$('#email').textContent;
-  const sel=()=>{const r=document.createRange();r.selectNodeContents($('#email'));const s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Выделено';};
-  try{navigator.clipboard.writeText(txt).then(()=>{btn.textContent='Скопировано';setTimeout(()=>btn.textContent='Копировать',1800);},sel);}catch(e){sel();}
+  const sel=()=>{const r=document.createRange();r.selectNodeContents($('#email'));const s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent=L.selected;};
+  try{navigator.clipboard.writeText(txt).then(()=>{btn.textContent=L.copied;setTimeout(()=>btn.textContent=L.copy,1800);},sel);}catch(e){sel();}
 });
 
 /* ---------- scroll model ---------- */
@@ -616,8 +646,32 @@ function measure(){vw=innerWidth;vh=innerHeight;mobile=vw<860;
 function scrollT(){const y=scrollY;let i=0;
   for(let k=0;k<secs.length;k++){if(y>=tops[k])i=k;}
   return i+clamp((y-tops[i])/heights[i]);}
-const CH=[["00","Введение"],["00","Введение"],["01","Проблема"],["02","Почему не решено"],["03","Устройство"],["04","Как работает"],["05","Модель"],["06","Экономика"],["07","Для кого"],["08","Дорожная карта"],["09","Пилот"]];
+const CH=["00","00","01","02","03","04","05","06","07","08","09"].map((n,i)=>[n,STR.ru.ch[i]]);
 const chNum=$('#chNum'),chName=$('#chName'),chBar=$('#chBar');let lastCh=-1;
+
+function setLang(l,persist){
+  lang=l;L=STR[l];
+  document.documentElement.lang=l;
+  i18nEls.forEach(el=>{el.innerHTML=l==='en'?EN[el.dataset.i18n]:el.dataset.ru;});
+  CH.forEach((c,i)=>{c[1]=L.ch[i];});lastCh=-1;
+  const c0=CH[Math.floor(scrollT())]||CH[0];chName.textContent=c0[1];
+  renderModel();
+  $('#copyBtn').textContent=L.copy;
+  const pm=$('#pupilmm');pm.textContent=pm.textContent.replace(/\s*(мм|mm)$/,'')+L.mm;
+  const tm=$('#timer');tm.textContent=tm.textContent.replace(/\s*(с|s)$/,'')+L.s;
+  const ss=$('#scanstate');ss.textContent=(ss.textContent===STR.ru.done||ss.textContent===STR.en.done)?L.done:L.scan;
+  const lb=$('#langBtn');lb.textContent=L.btn;lb.lang=L.btnLang;lb.setAttribute('aria-label',L.btnLabel);
+  document.querySelector('.nav').setAttribute('aria-label',L.nav);
+  document.querySelector('.brand').setAttribute('aria-label',L.home);
+  document.querySelectorAll('.card img').forEach(im=>im.alt=L.logo);
+  const md=document.querySelector('meta[name="description"]');if(md)md.content=L.desc;
+  if(persist){
+    try{localStorage.setItem('veya-lang',l);}catch(e){}
+    try{history.replaceState(null,'',(l==='en'?'/en':'/')+location.hash);}catch(e){}
+  }
+}
+$('#langBtn').addEventListener('click',()=>{setLang(lang==='en'?'ru':'en',true);requestAnimationFrame(()=>{measure&&measure();});});
+setLang(pickLang(),false);
 
 /* ---------- pointer ---------- */
 let mx=0,my=0,lastMove=0;
@@ -1020,7 +1074,7 @@ function frame(now){
     eye.lookAt(tmpV);
     eyeMat.uniforms.uPupil.value=pupil;
     const mm=(pupil/.52*12).toFixed(1);
-    if(mm!==lastPupilTxt&&t<1){lastPupilTxt=mm;pupilmm.textContent=mm+' мм';}
+    if(mm!==lastPupilTxt&&t<1){lastPupilTxt=mm;pupilmm.textContent=mm+L.mm;}
     renderer.render(eyeScene,eyeCam);
   }
 
@@ -1086,7 +1140,7 @@ function frame(now){
   settle(tags,boxes).forEach(it=>it.el.style.transform=`translate(${(it.x-it.bx).toFixed(1)}px,${(it.y-it.by).toFixed(1)}px)`);}
   const hudOp=(t>4.98&&t<5.8)?sstep(4.98,5.06,t)*(1-sstep(5.66,5.74,t)):0;
   scanhud.style.opacity=hudOp.toFixed(3);
-  if(hudOp>0){timer.textContent=(scanP*28.4).toFixed(1)+' с';scanstate.textContent=scanP>=1?'готово':'сканирование';}
+  if(hudOp>0){timer.textContent=(scanP*28.4).toFixed(1)+L.s;scanstate.textContent=scanP>=1?L.done:L.scan;}
   const rOp=sstep(5.42,5.48,t)*(1-sstep(5.66,5.74,t));
   result.style.opacity=rOp.toFixed(3);
   if(rOp>0&&showF){const cw=resultEl.offsetWidth,ch=resultEl.offsetHeight;let rx,ry;
